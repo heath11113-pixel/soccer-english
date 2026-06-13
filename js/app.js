@@ -4,6 +4,7 @@
 // ---------- 상태 ----------
 const STORE_KEY = 'ke_state_v1';
 let CUR = null;   // curriculum.json
+let CUSTOM = [];  // custom_songs.json (부모가 추가한 곡)
 let S = null;     // 저장 상태
 
 const DEFAULT_STATE = {
@@ -613,15 +614,29 @@ function renderSongRoom() {
     d.className = 'word-card';
     d.innerHTML = '<div class="en" style="font-size:1.15rem">🎵 ' + w.song.title + '</div>' +
       '<div class="ko">' + w.song.artist + ' · ' + w.week + '주차 · ' + w.song.theme_ko + '</div>';
-    d.onclick = () => openSong(w);
+    d.onclick = () => openSong(w.song);
     area.appendChild(d);
   });
+  // 부모가 추가한 곡 (내가 신청한 노래)
+  if (CUSTOM.length) {
+    const h = document.createElement('div');
+    h.className = 'quiz-q';
+    h.textContent = '⭐ 내가 신청한 노래';
+    area.appendChild(h);
+    CUSTOM.slice().reverse().forEach(s => {
+      const d = document.createElement('div');
+      d.className = 'word-card';
+      d.innerHTML = '<div class="en" style="font-size:1.15rem">🎵 ' + s.title + '</div>' +
+        '<div class="ko">' + (s.artist || '') + '</div>';
+      d.onclick = () => openSong(s);
+      area.appendChild(d);
+    });
+  }
   show('screen-song');
 }
 
 // 노래방에서 곡 하나 열기 — 앱 안에서 영상 재생 + 단어 + 가사 게임 연습
-function openSong(w) {
-  const s = w.song;
+function openSong(s) {
   const area = $('songview-area');
   area.innerHTML =
     '<div class="word-card"><div class="en" style="font-size:1.3rem">' + s.title + '</div>' +
@@ -640,7 +655,7 @@ function openSong(w) {
     gb.textContent = '🎮 가사 빈칸 게임 (연습)';
     gb.onclick = () => {
       L = { steps: [], idx: 0, correct: 0, total: 0 };  // 연습용 임시(보상/저장 없음)
-      lyricsGame(s.game, () => openSong(w));
+      lyricsGame(s.game, () => openSong(s));
       show('screen-lesson');
     };
     area.appendChild(gb);
@@ -680,6 +695,10 @@ function init() {
     .then(r => r.json())
     .then(m => { AUDIO_MAP = m; })
     .catch(() => { AUDIO_MAP = {}; });
+  fetch('data/custom_songs.json')
+    .then(r => r.json())
+    .then(c => { CUSTOM = Array.isArray(c) ? c : []; })
+    .catch(() => { CUSTOM = []; });
   fetch('data/curriculum.json')
     .then(r => r.json())
     .then(j => {

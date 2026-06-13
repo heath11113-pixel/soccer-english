@@ -1,0 +1,58 @@
+[
+ {
+  "id": "let_it_go",
+  "title": "Let It Go",
+  "artist": "Idina Menzel",
+  "videoId": "FnpJBkAMk44",
+  "theme_ko": "내가 신청한 노래",
+  "words": [
+   {
+    "en": "queen",
+    "ko": "여왕",
+    "emoji": "👑"
+   },
+   {
+    "en": "feel",
+    "ko": "느끼다",
+    "emoji": "🎵"
+   },
+   {
+    "en": "know",
+    "ko": "알다",
+    "emoji": "🎵"
+   }
+  ],
+  "game": [
+   {
+    "full": "And it looks like I'm the queen",
+    "blank": "queen",
+    "opts": [
+     "queen",
+     "dance",
+     "help"
+    ],
+    "ko": "그리고 제가 여왕인 것 같네요"
+   },
+   {
+    "full": "Conceal, don't feel, don't let them know",
+    "blank": "feel",
+    "opts": [
+     "feel",
+     "today",
+     "water"
+    ],
+    "ko": "감추기, 느끼지 않기, 알리지 않기"
+   },
+   {
+    "full": "Well, now they know",
+    "blank": "know",
+    "opts": [
+     "know",
+     "baby",
+     "pen"
+    ],
+    "ko": "이제 그들은"
+   }
+  ]
+ }
+]
