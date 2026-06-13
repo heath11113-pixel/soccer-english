@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- 디자인 시안 A — 스타디움 나이트 (다크 + 네온 그라데이션, 프리미엄 athletic) -->
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>시안 A · 스타디움 나이트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans KR',sans-serif;background:#070b10;color:#eef2f7;
+ background-image:radial-gradient(120% 60% at 50% -10%,rgba(34,197,94,.18),transparent 60%),
+ radial-gradient(80% 40% at 90% 110%,rgba(56,189,248,.12),transparent 60%);min-height:100vh}
+.wrap{max-width:440px;margin:0 auto;padding:18px 18px 36px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+ border-radius:999px;padding:7px 14px;font-weight:700;font-size:.92rem;backdrop-filter:blur(8px)}
+.pill .n{font-family:Montserrat;font-weight:900}
+.coin{color:#fbbf24}.fire{color:#fb7185}
+.hero{position:relative;border-radius:24px;padding:24px 22px 26px;overflow:hidden;
+ background:linear-gradient(135deg,#0e1620,#0a1118);border:1px solid rgba(255,255,255,.08);margin-bottom:14px}
+.hero::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+ background:radial-gradient(circle,rgba(163,230,53,.35),transparent 70%);filter:blur(6px)}
+.kick{font-family:Montserrat;font-weight:900;font-size:.8rem;letter-spacing:.22em;color:#a3e635;margin-bottom:6px}
+.day{font-family:Montserrat;font-weight:900;font-size:2.5rem;line-height:1;margin-bottom:4px}
+.sub{color:#9aa6b6;font-size:.96rem;position:relative;z-index:2}
+.bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);margin-top:16px;overflow:hidden;position:relative;z-index:2}
+.bar i{display:block;height:100%;width:62%;border-radius:99px;background:linear-gradient(90deg,#a3e635,#22c55e)}
+.cta{display:block;width:100%;border:0;border-radius:18px;padding:20px;margin:14px 0;cursor:pointer;
+ font-family:'Noto Sans KR';font-weight:900;font-size:1.2rem;color:#06140a;
+ background:linear-gradient(135deg,#a3e635,#22c55e);box-shadow:0 10px 30px rgba(34,197,94,.35)}
+.tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+.tile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:18px;
+ padding:16px 8px;text-align:center;font-weight:700;font-size:.9rem;color:#cdd6e2}
+.tile .ic{font-size:26px;display:block;margin-bottom:6px}
+.label{font-family:Montserrat;font-weight:900;letter-spacing:.12em;color:#5e6b7d;font-size:.74rem;margin:4px 2px 10px}
+.word{background:linear-gradient(180deg,#101a24,#0b121a);border:1px solid rgba(255,255,255,.08);
+ border-radius:22px;padding:24px;text-align:center}
+.wimg{width:96px;height:96px;border-radius:24px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 30% 25%,#1c2a37,#0d141c);border:1px solid rgba(163,230,53,.25)}
+.en{font-family:Montserrat;font-weight:900;font-size:2rem;letter-spacing:.01em}
+.ko{color:#8893a3;margin-top:2px}
+.say{display:flex;gap:8px;margin-top:16px}
+.say b{flex:1;border-radius:14px;padding:13px;font-weight:800;text-align:center;font-size:.95rem}
+.s1{background:rgba(255,255,255,.07);color:#cdd6e2}
+.s2{background:rgba(163,230,53,.16);color:#a3e635;border:1px solid rgba(163,230,53,.4)}
+.note{text-align:center;color:#5e6b7d;font-size:.8rem;margin-top:22px}
+</style></head><body><div class="wrap">
+ <div class="top">
+  <div class="pill coin">🪙 <span class="n">1,240</span></div>
+  <div class="pill fire">🔥 <span class="n">12</span>일</div>
+ </div>
+ <div class="hero">
+  <div class="kick">TODAY'S TRAINING</div>
+  <div class="day">DAY 12</div>
+  <div class="sub">8주차 · 축구 특집 ⚽ · 오늘의 단어 5개</div>
+  <div class="bar"><i></i></div>
+ </div>
+ <button class="cta">▶  오늘의 훈련 시작</button>
+ <div class="tiles">
+  <div class="tile"><span class="ic">🃏</span>내 카드</div>
+  <div class="tile"><span class="ic">🎤</span>노래방</div>
+  <div class="tile"><span class="ic">🎟️</span>내 쿠폰</div>
+ </div>
+ <div class="label">WORD OF THE DAY</div>
+ <div class="word">
+  <div class="wimg"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#a3e635" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 5l2.6 1.9-1 3h-3.2l-1-3z" fill="#a3e635" stroke="none"/><path d="M12 12l3 2.2M12 12l-3 2.2M12 12V8.5"/></svg></div>
+  <div class="en">goal</div>
+  <div class="ko">골 · 골인</div>
+  <div class="say"><b class="s1">🔊 듣기</b><b class="s2">🎤 따라 말하기</b></div>
+ </div>
+ <div class="note">시안 A · 스타디움 나이트</div>
+</div></body></html>
