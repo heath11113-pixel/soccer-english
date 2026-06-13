@@ -88,7 +88,9 @@ function speakEN(t) {
   }
   speak(speakable(t), 'en-US');
 }
-const speakKO = t => speak(t, 'ko-KR');
+// 한국어 안내 기계음은 끔 (거슬림). 효과음과 영어 원어민 발음은 그대로 유지.
+const KO_VOICE = false;
+const speakKO = t => { if (KO_VOICE) speak(t, 'ko-KR'); };
 
 // ---------- 따라 말하기 (음성 인식) ----------
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
