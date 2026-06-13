@@ -76,6 +76,38 @@ function speakEN(t) {
 }
 const speakKO = t => speak(t, 'ko-KR');
 
+// ---------- 따라 말하기 (음성 인식) ----------
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+function speechSupported() { return !!SR; }
+function norm(s) { return (s || '').toLowerCase().replace(/[^a-z' ]/g, '').replace(/\s+/g, ' ').trim(); }
+// 목표 문장을 듣고 비슷하면 onResult(true), 아니면 onResult(false, 들린말). 미지원/거부 시 onUnsupported()
+function listenFor(target, onResult, onUnsupported, onStart) {
+  if (!SR) { onUnsupported && onUnsupported(); return null; }
+  let rec;
+  try { rec = new SR(); } catch (e) { onUnsupported && onUnsupported(); return null; }
+  rec.lang = 'en-US';
+  rec.interimResults = false;
+  rec.maxAlternatives = 5;
+  let done = false;
+  rec.onstart = () => { onStart && onStart(); };
+  rec.onresult = (ev) => {
+    done = true;
+    const want = norm(target);
+    let ok = false, heard = '';
+    for (let i = 0; i < ev.results[0].length; i++) {
+      const alt = norm(ev.results[0][i].transcript);
+      if (i === 0) heard = ev.results[0][i].transcript;
+      if (alt === want || alt.indexOf(want) >= 0 || want.indexOf(alt) >= 0) { ok = true; break; }
+      // 한 단어 목표면 들린 문장 안에 포함되는지도 확인
+      if (want.split(' ').length === 1 && alt.split(' ').indexOf(want) >= 0) { ok = true; break; }
+    }
+    onResult(ok, heard);
+  };
+  rec.onerror = (e) => { if (!done) { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') onUnsupported && onUnsupported(); else onResult(false, ''); } };
+  try { rec.start(); } catch (e) { onUnsupported && onUnsupported(); return null; }
+  return rec;
+}
+
 // ---------- 효과음 (파일 없이 WebAudio) ----------
 let AC = null;
 function beep(freqs, dur) {
@@ -95,6 +127,28 @@ function beep(freqs, dur) {
 const sfxGood = () => beep([523, 659, 784], 0.18);
 const sfxBad = () => beep([196], 0.25);
 const sfxGoal = () => beep([523, 659, 784, 1047], 0.2);
+
+// ---------- 유튜브 영상 (앱 안에서 바로 재생) ----------
+// 썸네일을 눌러야 iframe을 띄움 (데이터 절약 + 자동재생 방지)
+function videoCard(videoId, title) {
+  const wrap = document.createElement('div');
+  wrap.className = 'video-card';
+  const thumb = document.createElement('div');
+  thumb.className = 'video-thumb';
+  thumb.style.backgroundImage = "url('https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg')";
+  thumb.innerHTML = '<div class="video-play">▶</div>';
+  thumb.onclick = () => {
+    const ifr = document.createElement('iframe');
+    ifr.className = 'video-frame';
+    ifr.allow = 'autoplay; encrypted-media; picture-in-picture';
+    ifr.allowFullscreen = true;
+    ifr.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0&playsinline=1';
+    wrap.innerHTML = '';
+    wrap.appendChild(ifr);
+  };
+  wrap.appendChild(thumb);
+  return wrap;
+}
 
 // ---------- 화면 전환 ----------
 const $ = id => document.getElementById(id);
@@ -203,20 +257,61 @@ function renderStep() {
   if (step === 'reward') return uiReward();
 }
 
-// 1단계 — 오늘의 단어
+// 1단계 — 오늘의 단어 (듣기 + 따라 말하기)
 function uiWords() {
   const area = $('lesson-area');
-  area.innerHTML = '<div class="quiz-q">오늘의 단어! 카드를 눌러 소리를 들어 봐 👇</div>';
+  area.innerHTML = '<div class="quiz-q">오늘의 단어! 카드를 눌러 듣고, 🎤 따라 말해 봐 👇</div>';
   L.newWords.forEach(wd => {
     const c = document.createElement('div');
     c.className = 'word-card';
     c.innerHTML = '<div class="emoji">' + wd.emoji + '</div><div class="en">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
+    const sayRow = document.createElement('div');
+    sayRow.className = 'say-row';
+    const hearBtn = document.createElement('button');
+    hearBtn.className = 'say-btn';
+    hearBtn.textContent = '🔊 듣기';
+    hearBtn.onclick = (e) => { e.stopPropagation(); speakEN(wd.en); };
+    const micBtn = document.createElement('button');
+    micBtn.className = 'say-btn mic';
+    micBtn.textContent = '🎤 따라 말하기';
+    const fb = document.createElement('div');
+    fb.className = 'say-fb';
+    micBtn.onclick = (e) => {
+      e.stopPropagation();
+      micBtn.textContent = '🎤 듣는 중...';
+      micBtn.disabled = true;
+      listenFor(wd.en,
+        (ok) => {
+          micBtn.disabled = false;
+          if (ok) {
+            micBtn.textContent = '🎤 따라 말하기';
+            fb.textContent = '⭐ 완벽해요!'; fb.className = 'say-fb good';
+            sfxGood(); speakKO('잘했어요!');
+          } else {
+            micBtn.textContent = '🎤 다시 말하기';
+            fb.textContent = '다시 한 번 또박또박! 🔊 듣기를 눌러 봐'; fb.className = 'say-fb retry';
+          }
+        },
+        () => {  // 음성인식 미지원/마이크 거부 → 자기확인 모드
+          micBtn.disabled = false;
+          micBtn.textContent = '✅ 말했어요!';
+          micBtn.classList.add('selfcheck');
+          micBtn.onclick = (ev) => { ev.stopPropagation(); fb.textContent = '⭐ 잘했어요!'; fb.className = 'say-fb good'; sfxGood(); };
+          fb.textContent = '이 기기는 마이크 채점이 안 돼요. 소리 내어 따라 말하고 눌러요'; fb.className = 'say-fb';
+        },
+        () => { fb.textContent = '🎙️ 지금 말해요!'; fb.className = 'say-fb'; }
+      );
+    };
     c.onclick = () => speakEN(wd.en);
+    sayRow.appendChild(hearBtn);
+    sayRow.appendChild(micBtn);
     area.appendChild(c);
+    area.appendChild(sayRow);
+    area.appendChild(fb);
   });
   const btn = document.createElement('button');
   btn.className = 'next-btn';
-  btn.textContent = '다 들었어요! 👉';
+  btn.textContent = '다 했어요! 👉';
   btn.onclick = nextStep;
   area.appendChild(btn);
   setTimeout(() => { if (L.newWords[0]) speakEN(L.newWords[0].en); }, 400);
@@ -327,7 +422,7 @@ function uiPhrase() {
   setTimeout(() => speakEN(p.en), 400);
 }
 
-// 노래의 날 — 이주의 노래 듣기 + 노래 핵심 단어 배우기
+// 노래의 날 — 영상 보기 + 노래 단어 + 가사 빈칸 게임
 function uiSongDay() {
   const w = curWeek();
   const s = w.song || {};
@@ -345,29 +440,71 @@ function uiSongDay() {
   }
   area.innerHTML =
     '<div class="quiz-q">🎵 이주의 노래</div>' +
-    '<div class="word-card"><div class="en" style="font-size:1.5rem">' + s.title + '</div>' +
-    '<div class="ko">' + (s.artist || '') + '<br>' + (s.theme_ko || '') + '</div></div>' +
-    '<div class="quiz-q">노래에 나오는 단어! 눌러서 들어 봐 👇</div>';
+    '<div class="word-card"><div class="en" style="font-size:1.4rem">' + s.title + '</div>' +
+    '<div class="ko">' + (s.artist || '') + '<br>' + (s.theme_ko || '') + '</div></div>';
+  if (s.videoId) area.appendChild(videoCard(s.videoId, s.title));
+  const q2 = document.createElement('div');
+  q2.className = 'quiz-q';
+  q2.textContent = '노래에 나오는 단어! 눌러서 들어 봐 👇';
+  area.appendChild(q2);
   (s.words || []).forEach(wd => {
     const c = document.createElement('div');
     c.className = 'word-card';
-    c.innerHTML = '<div class="emoji" style="font-size:48px">' + wd.emoji + '</div><div class="en" style="font-size:1.4rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
+    c.innerHTML = '<div class="emoji" style="font-size:44px">' + wd.emoji + '</div><div class="en" style="font-size:1.3rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
     c.onclick = () => speakEN(wd.en);
     area.appendChild(c);
   });
-  const yt = document.createElement('button');
-  yt.className = 'speak-btn';
-  yt.textContent = '▶️ 유튜브에서 노래 듣기';
-  yt.onclick = () => {
-    const q = s.title + ' ' + (s.artist && s.artist.indexOf('OST') < 0 ? s.artist : '') + ' lyrics';
-    window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(q), '_blank');
-  };
-  area.appendChild(yt);
   const btn = document.createElement('button');
   btn.className = 'next-btn';
-  btn.textContent = '노래 들었어요! 👉';
-  btn.onclick = nextStep;
+  btn.textContent = '🎮 가사 빈칸 게임 하기!';
+  btn.onclick = () => lyricsGame(s.game || [], nextStep);
   area.appendChild(btn);
+}
+
+// 가사 빈칸 게임 — 한 줄을 듣고 빠진 단어를 보기에서 고르기
+function lyricsGame(lines, onDone) {
+  if (!lines.length) { onDone(); return; }
+  let gi = 0;
+  const area = $('lesson-area');
+  function ask() {
+    if (gi >= lines.length) { onDone(); return; }
+    const ln = lines[gi];
+    const shown = ln.full.replace(new RegExp('\\b' + ln.blank.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i'), '＿＿＿');
+    area.innerHTML =
+      '<div class="quiz-q">🎤 노래 가사! 빠진 단어를 골라 봐 (' + (gi + 1) + '/' + lines.length + ')</div>' +
+      '<div class="lyric-line">' + shown + '</div>' +
+      '<div class="lyric-ko">' + ln.ko + '</div>';
+    const hear = document.createElement('button');
+    hear.className = 'speak-btn';
+    hear.textContent = '🔊 가사 듣기';
+    hear.onclick = () => speakEN(ln.full);
+    area.appendChild(hear);
+    const box = document.createElement('div');
+    box.className = 'quiz-opts';
+    shuffle(ln.opts.slice()).forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'opt text';
+      b.textContent = o;
+      b.onclick = () => {
+        const ok = o.toLowerCase() === ln.blank.toLowerCase();
+        L.total++;
+        if (ok) {
+          L.correct++;
+          b.classList.add('correct');
+          sfxGoal(); goalFx();
+          speakEN(ln.full);
+        } else {
+          b.classList.add('wrong');
+          sfxBad();
+        }
+        setTimeout(() => { gi++; ask(); }, ok ? 1500 : 1100);
+      };
+      box.appendChild(b);
+    });
+    area.appendChild(box);
+    setTimeout(() => speakEN(ln.full), 300);
+  }
+  ask();
 }
 
 // 5단계 — 보상 정산
@@ -474,15 +611,41 @@ function renderSongRoom() {
   avail.forEach(w => {
     const d = document.createElement('div');
     d.className = 'word-card';
-    d.innerHTML = '<div class="en" style="font-size:1.2rem">🎵 ' + w.song.title + '</div>' +
+    d.innerHTML = '<div class="en" style="font-size:1.15rem">🎵 ' + w.song.title + '</div>' +
       '<div class="ko">' + w.song.artist + ' · ' + w.week + '주차 · ' + w.song.theme_ko + '</div>';
-    d.onclick = () => {
-      const q = w.song.title + ' ' + (w.song.artist.indexOf('OST') < 0 ? w.song.artist : '') + ' lyrics';
-      window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(q), '_blank');
-    };
+    d.onclick = () => openSong(w);
     area.appendChild(d);
   });
   show('screen-song');
+}
+
+// 노래방에서 곡 하나 열기 — 앱 안에서 영상 재생 + 단어 + 가사 게임 연습
+function openSong(w) {
+  const s = w.song;
+  const area = $('songview-area');
+  area.innerHTML =
+    '<div class="word-card"><div class="en" style="font-size:1.3rem">' + s.title + '</div>' +
+    '<div class="ko">' + s.artist + '<br>' + s.theme_ko + '</div></div>';
+  if (s.videoId) area.appendChild(videoCard(s.videoId, s.title));
+  (s.words || []).forEach(wd => {
+    const c = document.createElement('div');
+    c.className = 'word-card';
+    c.innerHTML = '<div class="emoji" style="font-size:40px">' + wd.emoji + '</div><div class="en" style="font-size:1.2rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
+    c.onclick = () => speakEN(wd.en);
+    area.appendChild(c);
+  });
+  if (s.game && s.game.length) {
+    const gb = document.createElement('button');
+    gb.className = 'next-btn';
+    gb.textContent = '🎮 가사 빈칸 게임 (연습)';
+    gb.onclick = () => {
+      L = { steps: [], idx: 0, correct: 0, total: 0 };  // 연습용 임시(보상/저장 없음)
+      lyricsGame(s.game, () => openSong(w));
+      show('screen-lesson');
+    };
+    area.appendChild(gb);
+  }
+  show('screen-songview');
 }
 
 // ---------- 현금 쿠폰 ----------
@@ -533,6 +696,8 @@ function init() {
   $('btn-train').onclick = startLesson;
   $('btn-cards').onclick = renderCards;
   $('btn-song').onclick = renderSongRoom;
+  $('btn-songview-back').onclick = renderSongRoom;
+  $('btn-songview-home').onclick = renderHome;
   $('btn-lesson-home').onclick = renderHome;
   $('btn-cards-home').onclick = renderHome;
   $('btn-song-home').onclick = renderHome;

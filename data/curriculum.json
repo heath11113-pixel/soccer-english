@@ -35,6 +35,39 @@
       "ko": "다시",
       "emoji": "🔁"
      }
+    ],
+    "videoId": "c6rP-YP4c5I",
+    "game": [
+     {
+      "full": "I wanna try everything",
+      "blank": "try",
+      "opts": [
+       "try",
+       "fly",
+       "run"
+      ],
+      "ko": "나는 모든 것에 도전하고 싶어"
+     },
+     {
+      "full": "Birds don't just fly",
+      "blank": "fly",
+      "opts": [
+       "fly",
+       "try",
+       "cry"
+      ],
+      "ko": "새들도 그냥 날기만 하지 않아"
+     },
+     {
+      "full": "and then I'll start again",
+      "blank": "again",
+      "opts": [
+       "again",
+       "rain",
+       "run"
+      ],
+      "ko": "그러고 나서 다시 시작할 거야"
+     }
     ]
    },
    "days": [
@@ -178,6 +211,39 @@
       "en": "sunshine",
       "ko": "햇살",
       "emoji": "☀️"
+     }
+    ],
+    "videoId": "ZbZSe6N_BXs",
+    "game": [
+     {
+      "full": "Because I'm happy",
+      "blank": "happy",
+      "opts": [
+       "happy",
+       "puppy",
+       "hungry"
+      ],
+      "ko": "나는 행복하니까"
+     },
+     {
+      "full": "Clap along if you feel",
+      "blank": "Clap",
+      "opts": [
+       "Clap",
+       "Clip",
+       "Climb"
+      ],
+      "ko": "기분이 좋으면 박수를 쳐"
+     },
+     {
+      "full": "Sunshine she's here",
+      "blank": "Sunshine",
+      "opts": [
+       "Sunshine",
+       "Sunday",
+       "Sunset"
+      ],
+      "ko": "햇살이 여기 있어"
      }
     ]
    },
@@ -323,6 +389,39 @@
       "ko": "북",
       "emoji": "🥁"
      }
+    ],
+    "videoId": "CjxugyZCfuw",
+    "game": [
+     {
+      "full": "I am brave, I am bruised",
+      "blank": "brave",
+      "opts": [
+       "brave",
+       "grave",
+       "brake"
+      ],
+      "ko": "나는 용감해, 나는 상처 입었어"
+     },
+     {
+      "full": "marching on to the beat I drum",
+      "blank": "drum",
+      "opts": [
+       "drum",
+       "drop",
+       "dream"
+      ],
+      "ko": "내가 치는 북소리에 맞춰 행진해"
+     },
+     {
+      "full": "this is me",
+      "blank": "me",
+      "opts": [
+       "me",
+       "be",
+       "see"
+      ],
+      "ko": "이게 바로 나야"
+     }
     ]
    },
    "days": [
@@ -465,6 +564,39 @@
       "ko": "하늘",
       "emoji": "🌌"
      }
+    ],
+    "videoId": "QGJuMBdaqIw",
+    "game": [
+     {
+      "full": "Baby, you're a firework",
+      "blank": "firework",
+      "opts": [
+       "firework",
+       "fireman",
+       "homework"
+      ],
+      "ko": "그대는 불꽃놀이야"
+     },
+     {
+      "full": "You just gotta ignite the light",
+      "blank": "light",
+      "opts": [
+       "light",
+       "night",
+       "right"
+      ],
+      "ko": "그저 빛을 밝히면 돼"
+     },
+     {
+      "full": "As you shoot across the sky",
+      "blank": "sky",
+      "opts": [
+       "sky",
+       "fly",
+       "spy"
+      ],
+      "ko": "하늘을 가로질러 쏘아 올라"
+     }
     ]
    },
    "days": [
@@ -594,6 +726,39 @@
       "en": "help",
       "ko": "돕다",
       "emoji": "🤝"
+     }
+    ],
+    "videoId": "6k8cpUkKK4c",
+    "game": [
+     {
+      "full": "You can count on me",
+      "blank": "count",
+      "opts": [
+       "count",
+       "mount",
+       "cost"
+      ],
+      "ko": "너는 나를 믿어도 돼"
+     },
+     {
+      "full": "to help our friends in need",
+      "blank": "help",
+      "opts": [
+       "help",
+       "hold",
+       "hope"
+      ],
+      "ko": "어려운 친구들을 돕기 위해"
+     },
+     {
+      "full": "that's what friends are for",
+      "blank": "friends",
+      "opts": [
+       "friends",
+       "trends",
+       "ends"
+      ],
+      "ko": "그게 바로 친구야"
      }
     ]
    },
@@ -725,6 +890,39 @@
       "ko": "큰 소리로",
       "emoji": "📢"
      }
+    ],
+    "videoId": "CevxZvSJLk8",
+    "game": [
+     {
+      "full": "you're gonna hear me roar",
+      "blank": "roar",
+      "opts": [
+       "roar",
+       "roll",
+       "rock"
+      ],
+      "ko": "너는 나의 포효를 듣게 될 거야"
+     },
+     {
+      "full": "I am a champion",
+      "blank": "champion",
+      "opts": [
+       "champion",
+       "champ",
+       "chicken"
+      ],
+      "ko": "나는 챔피언이야"
+     },
+     {
+      "full": "Louder than a lion",
+      "blank": "Louder",
+      "opts": [
+       "Louder",
+       "Lower",
+       "Later"
+      ],
+      "ko": "사자보다 더 크게"
+     }
     ]
    },
    "days": [
@@ -854,6 +1052,39 @@
       "en": "world",
       "ko": "세상",
       "emoji": "🌍"
+     }
+    ],
+    "videoId": "Sr3X0DCXI-M",
+    "game": [
+     {
+      "full": "Share your dreams with me",
+      "blank": "dreams",
+      "opts": [
+       "dreams",
+       "creams",
+       "teams"
+      ],
+      "ko": "너의 꿈을 나와 나눠줘"
+     },
+     {
+      "full": "A million dreams",
+      "blank": "million",
+      "opts": [
+       "million",
+       "billion",
+       "minion"
+      ],
+      "ko": "백만 가지 꿈"
+     },
+     {
+      "full": "for the world we're gonna make",
+      "blank": "world",
+      "opts": [
+       "world",
+       "word",
+       "work"
+      ],
+      "ko": "우리가 만들 세상을 위해"
      }
     ]
    },
@@ -985,6 +1216,39 @@
       "ko": "오늘",
       "emoji": "📅"
      }
+    ],
+    "videoId": "Ntn1-SocNiY",
+    "game": [
+     {
+      "full": "When you fall get up",
+      "blank": "fall",
+      "opts": [
+       "fall",
+       "ball",
+       "call"
+      ],
+      "ko": "넘어지면 다시 일어나"
+     },
+     {
+      "full": "Today's your day",
+      "blank": "Today",
+      "opts": [
+       "Today",
+       "Tonight",
+       "Tomorrow"
+      ],
+      "ko": "오늘이 너의 날이야"
+     },
+     {
+      "full": "Pick yourself up",
+      "blank": "up",
+      "opts": [
+       "up",
+       "out",
+       "off"
+      ],
+      "ko": "스스로 일어나"
+     }
     ]
    },
    "days": [
@@ -1114,6 +1378,39 @@
       "en": "fun",
       "ko": "재미",
       "emoji": "🎉"
+     }
+    ],
+    "videoId": "gdZLi9oWNZg",
+    "game": [
+     {
+      "full": "I'm in the stars tonight",
+      "blank": "stars",
+      "opts": [
+       "stars",
+       "cars",
+       "starts"
+      ],
+      "ko": "오늘 밤 난 별들 속에 있어"
+     },
+     {
+      "full": "set the night alight",
+      "blank": "night",
+      "opts": [
+       "night",
+       "light",
+       "right"
+      ],
+      "ko": "밤을 환하게 밝혀"
+     },
+     {
+      "full": "light it up like dynamite",
+      "blank": "dynamite",
+      "opts": [
+       "dynamite",
+       "daytime",
+       "diamond"
+      ],
+      "ko": "다이너마이트처럼 터뜨려"
      }
     ]
    },
@@ -1245,6 +1542,39 @@
       "ko": "움직이다",
       "emoji": "🕺"
      }
+    ],
+    "videoId": "ru0K8uYEZWw",
+    "game": [
+     {
+      "full": "So just dance dance dance",
+      "blank": "dance",
+      "opts": [
+       "dance",
+       "chance",
+       "pants"
+      ],
+      "ko": "그냥 춤을 춰"
+     },
+     {
+      "full": "I can't stop the feeling",
+      "blank": "feeling",
+      "opts": [
+       "feeling",
+       "ceiling",
+       "filling"
+      ],
+      "ko": "이 기분을 멈출 수가 없어"
+     },
+     {
+      "full": "move your body",
+      "blank": "move",
+      "opts": [
+       "move",
+       "love",
+       "moon"
+      ],
+      "ko": "몸을 움직여"
+     }
     ]
    },
    "days": [
@@ -1375,6 +1705,39 @@
       "ko": "미소 짓다",
       "emoji": "😄"
      }
+    ],
+    "videoId": "CuklIb9d3fI",
+    "game": [
+     {
+      "full": "We don't need to worry",
+      "blank": "worry",
+      "opts": [
+       "worry",
+       "hurry",
+       "sorry"
+      ],
+      "ko": "우린 걱정할 필요 없어"
+     },
+     {
+      "full": "Sing along to the song",
+      "blank": "Sing",
+      "opts": [
+       "Sing",
+       "King",
+       "Ring"
+      ],
+      "ko": "노래를 따라 불러"
+     },
+     {
+      "full": "we don't need permission to dance",
+      "blank": "dance",
+      "opts": [
+       "dance",
+       "France",
+       "glance"
+      ],
+      "ko": "우린 춤출 허락이 필요 없어"
+     }
     ]
    },
    "days": [
@@ -1504,6 +1867,39 @@
       "en": "shine",
       "ko": "빛나다",
       "emoji": "🌟"
+     }
+    ],
+    "videoId": "yebNIHKAC4A",
+    "game": [
+     {
+      "full": "Gonna be golden",
+      "blank": "golden",
+      "opts": [
+       "golden",
+       "garden",
+       "olden"
+      ],
+      "ko": "우린 황금빛이 될 거야"
+     },
+     {
+      "full": "We're goin' up up up",
+      "blank": "up",
+      "opts": [
+       "up",
+       "out",
+       "on"
+      ],
+      "ko": "우린 위로 올라가"
+     },
+     {
+      "full": "now I'm shining",
+      "blank": "shining",
+      "opts": [
+       "shining",
+       "smiling",
+       "singing"
+      ],
+      "ko": "이제 난 빛나고 있어"
      }
     ]
    },

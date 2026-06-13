@@ -148,3 +148,42 @@ h2 { color: var(--text); margin: 4px 0; font-size: 1.25rem; letter-spacing: .02e
 .reward-box .big-coin { font-size: 46px; }
 .reward-box.used { opacity: .5; }
 #coupon-list { width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+#songview-area { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* 따라 말하기 */
+.say-row { display: flex; gap: 8px; width: 100%; }
+.say-btn {
+  flex: 1; min-height: 48px; font-size: .98rem;
+  background: var(--surface2); border: 1px solid var(--line); color: var(--text);
+}
+.say-btn.mic { background: rgba(74,222,128,.14); border-color: rgba(74,222,128,.4); color: var(--accent); }
+.say-btn.selfcheck { background: var(--surface2); color: var(--text); }
+.say-btn:disabled { opacity: .6; }
+.say-fb { width: 100%; text-align: center; font-size: .9rem; color: var(--muted); min-height: 1em; margin-bottom: 4px; }
+.say-fb.good { color: var(--accent); font-weight: 700; }
+.say-fb.retry { color: var(--gold); }
+
+/* 유튜브 영상 카드 */
+.video-card {
+  width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden;
+  background: #000; border: 1px solid var(--line);
+}
+.video-thumb {
+  width: 100%; height: 100%; background-size: cover; background-position: center;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.video-play {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(74,222,128,.92); color: #08130c;
+  font-size: 26px; display: flex; align-items: center; justify-content: center;
+  padding-left: 5px; box-shadow: 0 4px 16px rgba(0,0,0,.5);
+}
+.video-frame { width: 100%; height: 100%; border: 0; display: block; }
+
+/* 가사 빈칸 게임 */
+.lyric-line {
+  width: 100%; text-align: center; font-size: 1.5rem; font-weight: 800;
+  color: var(--text); padding: 18px 14px; background: var(--surface);
+  border: 1px solid var(--line); border-radius: 16px; line-height: 1.5;
+}
+.lyric-ko { width: 100%; text-align: center; color: var(--muted); font-size: 1rem; }
