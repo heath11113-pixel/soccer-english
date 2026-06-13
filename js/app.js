@@ -185,7 +185,7 @@ function startLesson() {
   renderStep();
 }
 function dots() {
-  $('lesson-dots').textContent = L.steps.map((s, i) => i <= L.idx ? '🟢' : '⚪').join(' ');
+  $('lesson-dots').innerHTML = L.steps.map((s, i) => '<span class="dot' + (i <= L.idx ? ' on' : '') + '"></span>').join('');
 }
 function nextStep() {
   L.idx++;

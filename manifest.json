@@ -4,8 +4,8 @@
   "description": "매일 10분, 축구와 노래로 배우는 어린이 영어",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#2e9e4f",
-  "theme_color": "#2e9e4f",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
   "icons": [
     {
       "src": "icon.svg",

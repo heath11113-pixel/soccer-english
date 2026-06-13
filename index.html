@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#2e9e4f">
+  <meta name="theme-color" content="#0b0d12">
   <title>싸커 잉글리시</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/app.css">
@@ -14,7 +14,8 @@
 
   <!-- 첫 실행 화면 (데이터 로딩 완료 후 표시) -->
   <section id="screen-start" class="screen hidden">
-    <div class="mascot bounce">⚽</div>
+    <div class="brand">SOCCER<span> ENGLISH</span></div>
+    <div class="mascot">⚽</div>
     <div class="bubble">안녕! 나는 <b>쌕쌕이</b>야!<br>너의 이름을 알려줘!</div>
     <input id="inp-name" type="text" maxlength="8" placeholder="이름 쓰기" autocomplete="off">
     <p class="hint">영어를 얼마나 알고 있어?</p>
@@ -28,9 +29,9 @@
       <span id="hud-coins">🪙 0</span>
       <span id="hud-streak">🔥 0일</span>
     </header>
-    <div class="mascot bounce small">⚽</div>
-    <div class="bubble" id="home-msg">오늘도 훈련하러 가자!</div>
+    <div class="brand">SOCCER<span> ENGLISH</span></div>
     <p id="home-progress" class="progress-text"></p>
+    <div class="bubble" id="home-msg">오늘도 훈련하러 가자!</div>
     <button id="btn-train" class="big green">⚽ 오늘의 훈련</button>
     <button id="btn-cards" class="big gold">🃏 내 카드</button>
     <button id="btn-song" class="big blue">🎤 노래방</button>
