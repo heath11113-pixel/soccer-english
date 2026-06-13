@@ -161,19 +161,26 @@ function show(id) {
 // ---------- 홈 ----------
 function renderHome() {
   if (!CUR) return;   // 데이터 로딩 전 진입 방어
-  $('hud-coins').textContent = '🪙 ' + S.coins;
+  $('hud-coins').textContent = '🪙 ' + S.coins.toLocaleString();
   $('hud-streak').textContent = '🔥 ' + S.streak + '일';
   const unused = S.coupons.filter(c => !c.used).length;
-  $('btn-coupons').textContent = '🎟️ 내 쿠폰' + (unused ? ' (' + unused + '장!)' : '');
+  $('btn-coupons').innerHTML = '<span class="ic">🎟️</span>내 쿠폰' + (unused ? ' (' + unused + ')' : '');
   const w = curWeek();
+  const totalDays = 12 * 7;
+  const dayNo = (S.week - 1) * 7 + S.day;
+  const pct = Math.min(100, Math.round(((S.week - 1) * 7 + (S.day - 1)) / totalDays * 100));
   if (!w) {
-    $('home-progress').textContent = '시즌 완료! 🏆';
-    $('home-msg').innerHTML = (S.name || '친구') + ', 12주 시즌 우승을 축하해! 🏆';
+    $('hero-day').textContent = '🏆 완주';
+    $('home-progress').textContent = '12주 시즌 우승!';
+    $('hero-bar').style.width = '100%';
+    $('home-msg').textContent = (S.name || '친구') + ', 시즌 우승을 축하해!';
   } else {
+    $('hero-day').textContent = 'DAY ' + dayNo;
     $('home-progress').textContent = S.week + '주차 · ' + dayLabel() + ' · ' + w.theme_ko;
-    $('home-msg').innerHTML = S.lastDone === today()
-      ? '오늘 훈련 끝! 내일 또 만나~ 😊'
-      : (S.name || '친구') + ', 오늘도 훈련하러 가자!';
+    $('hero-bar').style.width = pct + '%';
+    $('home-msg').textContent = S.lastDone === today()
+      ? '오늘 훈련 끝! 내일 또 만나요 😊'
+      : (S.name || '친구') + ', 오늘도 훈련하러 가요!';
   }
   show('screen-home');
 }

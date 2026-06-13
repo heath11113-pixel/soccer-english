@@ -4,9 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#0b0d12">
+  <meta name="theme-color" content="#070b10">
   <title>싸커 잉글리시</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Noto+Sans+KR:wght@500;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
@@ -14,28 +17,34 @@
 
   <!-- 첫 실행 화면 (데이터 로딩 완료 후 표시) -->
   <section id="screen-start" class="screen hidden">
+    <div class="start-logo">⚽</div>
     <div class="brand">SOCCER<span> ENGLISH</span></div>
-    <div class="mascot">⚽</div>
-    <div class="bubble">안녕! 나는 <b>쌕쌕이</b>야!<br>너의 이름을 알려줘!</div>
+    <div class="bubble">반가워! 너의 이름을 알려줘!</div>
     <input id="inp-name" type="text" maxlength="8" placeholder="이름 쓰기" autocomplete="off">
     <p class="hint">영어를 얼마나 알고 있어?</p>
-    <button id="btn-level-new" class="big green">🌱 처음이에요!</button>
-    <button id="btn-level-abc" class="big blue">🔤 알파벳은 알아요!</button>
+    <button id="btn-level-new" class="cta">🌱  처음이에요</button>
+    <button id="btn-level-abc" class="big">🔤  알파벳은 알아요</button>
   </section>
 
-  <!-- 홈(잔디 구장) 화면 -->
+  <!-- 홈 화면 -->
   <section id="screen-home" class="screen hidden">
-    <header class="topbar">
-      <span id="hud-coins">🪙 0</span>
-      <span id="hud-streak">🔥 0일</span>
+    <header class="topbar home-top">
+      <span class="pill coin" id="hud-coins">🪙 0</span>
+      <span class="pill fire" id="hud-streak">🔥 0일</span>
     </header>
-    <div class="brand">SOCCER<span> ENGLISH</span></div>
-    <p id="home-progress" class="progress-text"></p>
-    <div class="bubble" id="home-msg">오늘도 훈련하러 가자!</div>
-    <button id="btn-train" class="big green">⚽ 오늘의 훈련</button>
-    <button id="btn-cards" class="big gold">🃏 내 카드</button>
-    <button id="btn-song" class="big blue">🎤 노래방</button>
-    <button id="btn-coupons" class="big pink">🎟️ 내 쿠폰</button>
+    <div class="hero">
+      <div class="kick">TODAY'S TRAINING</div>
+      <div class="day" id="hero-day">DAY 1</div>
+      <div class="sub" id="home-progress"></div>
+      <div class="bar"><i id="hero-bar"></i></div>
+    </div>
+    <div class="home-msg" id="home-msg"></div>
+    <button id="btn-train" class="cta">▶  오늘의 훈련 시작</button>
+    <div class="tiles">
+      <button id="btn-cards" class="tile"><span class="ic">🃏</span>내 카드</button>
+      <button id="btn-song" class="tile"><span class="ic">🎤</span>노래방</button>
+      <button id="btn-coupons" class="tile"><span class="ic">🎟️</span>내 쿠폰</button>
+    </div>
     <button id="btn-parent" class="textlink">👨‍👩‍👧 부모님</button>
   </section>
 
