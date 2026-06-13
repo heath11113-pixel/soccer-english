@@ -1,0 +1,17 @@
+{
+  "name": "싸커 잉글리시",
+  "short_name": "싸커잉글리시",
+  "description": "매일 10분, 축구와 노래로 배우는 어린이 영어",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#2e9e4f",
+  "theme_color": "#2e9e4f",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

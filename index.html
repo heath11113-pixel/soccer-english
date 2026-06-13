@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- 초등 저학년 영어 학습 PWA "싸커 잉글리시" 메인 화면 -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#2e9e4f">
+  <title>싸커 잉글리시</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- 첫 실행 화면 -->
+  <section id="screen-start" class="screen">
+    <div class="mascot bounce">⚽</div>
+    <div class="bubble">안녕! 나는 <b>쌕쌕이</b>야!<br>너의 이름을 알려줘!</div>
+    <input id="inp-name" type="text" maxlength="8" placeholder="이름 쓰기" autocomplete="off">
+    <p class="hint">영어를 얼마나 알고 있어?</p>
+    <button id="btn-level-new" class="big green">🌱 처음이에요!</button>
+    <button id="btn-level-abc" class="big blue">🔤 알파벳은 알아요!</button>
+  </section>
+
+  <!-- 홈(잔디 구장) 화면 -->
+  <section id="screen-home" class="screen hidden">
+    <header class="topbar">
+      <span id="hud-coins">🪙 0</span>
+      <span id="hud-streak">🔥 0일</span>
+    </header>
+    <div class="mascot bounce small">⚽</div>
+    <div class="bubble" id="home-msg">오늘도 훈련하러 가자!</div>
+    <p id="home-progress" class="progress-text"></p>
+    <button id="btn-train" class="big green">⚽ 오늘의 훈련</button>
+    <button id="btn-cards" class="big gold">🃏 내 카드</button>
+    <button id="btn-song" class="big blue">🎤 노래방</button>
+    <button id="btn-coupons" class="big pink">🎟️ 내 쿠폰</button>
+  </section>
+
+  <!-- 현금 쿠폰 화면 -->
+  <section id="screen-coupons" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-coupons-home" class="mini">🏠</button>
+    </header>
+    <h2>내 쿠폰</h2>
+    <div id="coupon-list"></div>
+  </section>
+
+  <!-- 학습(훈련) 화면 -->
+  <section id="screen-lesson" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-lesson-home" class="mini">🏠</button>
+      <span id="lesson-dots"></span>
+    </header>
+    <div id="lesson-area"></div>
+  </section>
+
+  <!-- 카드 도감 화면 -->
+  <section id="screen-cards" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-cards-home" class="mini">🏠</button>
+      <span id="cards-coins">🪙 0</span>
+    </header>
+    <h2>내 선수 카드</h2>
+    <div id="card-grid"></div>
+    <button id="btn-pack" class="big gold">🎁 카드 뽑기 (🪙100)</button>
+  </section>
+
+  <!-- 노래방 화면 -->
+  <section id="screen-song" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-song-home" class="mini">🏠</button>
+    </header>
+    <h2>노래방</h2>
+    <p class="hint">지나온 주차의 노래가 하나씩 열려! 눌러서 유튜브로 듣자 🎵</p>
+    <div id="song-list"></div>
+  </section>
+
+  <!-- 골 세리머니 오버레이 -->
+  <div id="goal-overlay" class="hidden">
+    <div id="goal-text">GOAL!</div>
+  </div>
+
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+/* 싸커 잉글리시 — 아동(6~9세) 눈높이 스타일. 큰 버튼, 밝은 색, 즉각 피드백 애니메이션 */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  background: linear-gradient(180deg, #6fc8ff 0%, #a8e6ff 30%, #4cb85f 30%, #2e9e4f 100%);
+  color: #1c3324;
+  overflow-x: hidden;
+}
+#app { max-width: 480px; margin: 0 auto; min-height: 100vh; padding: 16px; }
+
+.screen { display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 8px; }
+.hidden { display: none !important; }
+
+.topbar {
+  width: 100%; display: flex; justify-content: space-between; align-items: center;
+  font-size: 1.2rem; font-weight: 700; color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+
+.mascot { font-size: 96px; line-height: 1; filter: drop-shadow(0 6px 4px rgba(0,0,0,.25)); }
+.mascot.small { font-size: 64px; }
+.bounce { animation: bounce 1.6s ease-in-out infinite; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+.bubble {
+  background: #fff; border-radius: 20px; padding: 14px 20px;
+  font-size: 1.15rem; text-align: center; line-height: 1.5;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12); max-width: 92%;
+}
+
+input[type="text"] {
+  font-size: 1.3rem; text-align: center; border: 3px solid #fff; border-radius: 16px;
+  padding: 12px; width: 70%; outline: none;
+}
+
+button {
+  border: none; border-radius: 20px; cursor: pointer;
+  font-family: inherit; font-weight: 800; color: #fff;
+  transition: transform .08s;
+}
+button:active { transform: scale(.94); }
+.big {
+  width: 88%; min-height: 64px; font-size: 1.35rem;
+  box-shadow: 0 5px 0 rgba(0,0,0,.18);
+}
+.green { background: #27a04a; }
+.blue  { background: #2f86eb; }
+.gold  { background: #e9a800; }
+.pink  { background: #e0568f; }
+#coupon-list { width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.reward-box.used { opacity: .55; }
+.mini  { background: rgba(255,255,255,.35); min-width: 48px; min-height: 44px; font-size: 1.2rem; }
+
+.hint { color: #fff; font-size: 1.05rem; margin: 4px 0 0; text-shadow: 0 1px 2px rgba(0,0,0,.3); }
+.progress-text { color: #fff; font-weight: 700; font-size: 1.05rem; margin: 0; text-shadow: 0 1px 2px rgba(0,0,0,.3); }
+
+/* 학습 화면 */
+#lesson-dots { letter-spacing: 4px; font-size: 1rem; }
+#lesson-area { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+.word-card {
+  background: #fff; border-radius: 24px; width: 88%;
+  padding: 20px; text-align: center;
+  box-shadow: 0 6px 0 rgba(0,0,0,.14); cursor: pointer;
+}
+.word-card .emoji { font-size: 80px; line-height: 1.1; }
+.word-card .en { font-size: 2rem; font-weight: 900; color: #14532d; margin: 6px 0 2px; }
+.word-card .ko { font-size: 1.2rem; color: #555; }
+
+.quiz-q {
+  background: #fff; border-radius: 20px; padding: 16px 20px; width: 88%;
+  text-align: center; font-size: 1.25rem; font-weight: 700;
+  box-shadow: 0 4px 0 rgba(0,0,0,.12);
+}
+.quiz-opts { display: flex; gap: 12px; width: 88%; justify-content: center; flex-wrap: wrap; }
+.opt {
+  background: #fff; border-radius: 20px; font-size: 56px;
+  width: 30%; min-width: 96px; min-height: 96px;
+  box-shadow: 0 5px 0 rgba(0,0,0,.15);
+}
+.opt.text { font-size: 1.4rem; font-weight: 900; color: #14532d; }
+.opt.correct { background: #b7f5c2; }
+.opt.wrong { background: #ffc9c9; animation: shake .35s; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); }
+}
+
+.speak-btn { background: #2f86eb; width: 88%; min-height: 60px; font-size: 1.25rem; box-shadow: 0 5px 0 rgba(0,0,0,.18); }
+.next-btn  { background: #27a04a; width: 88%; min-height: 60px; font-size: 1.25rem; box-shadow: 0 5px 0 rgba(0,0,0,.18); }
+
+/* 골 세리머니 */
+#goal-overlay {
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.35); z-index: 50;
+}
+#goal-text {
+  font-size: 64px; font-weight: 900; color: #ffe600;
+  text-shadow: 0 4px 0 rgba(0,0,0,.4); animation: pop .5s ease-out;
+}
+@keyframes pop { 0% { transform: scale(.2); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+.confetti {
+  position: fixed; top: -10px; font-size: 28px; z-index: 51;
+  animation: fall 1.4s linear forwards;
+}
+@keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: .6; } }
+
+/* 카드 도감 */
+h2 { color: #fff; margin: 4px 0; text-shadow: 0 1px 2px rgba(0,0,0,.3); }
+#card-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%;
+}
+.pcard {
+  background: #fff; border-radius: 16px; padding: 10px 4px; text-align: center;
+  box-shadow: 0 4px 0 rgba(0,0,0,.14);
+}
+.pcard .face { font-size: 44px; }
+.pcard .nm { font-size: .8rem; font-weight: 700; margin-top: 4px; }
+.pcard.locked { background: rgba(255,255,255,.45); color: #2c4a36; }
+.pcard.rare { outline: 3px solid #2f86eb; }
+.pcard.legend { outline: 3px solid #e9a800; background: #fff8dc; }
+
+.reward-box {
+  background: #fff; border-radius: 24px; width: 88%; padding: 24px; text-align: center;
+  box-shadow: 0 6px 0 rgba(0,0,0,.14); font-size: 1.3rem; line-height: 1.8;
+}
+.reward-box .big-coin { font-size: 56px; }

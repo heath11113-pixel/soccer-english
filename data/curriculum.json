@@ -1,0 +1,1624 @@
+{
+ "version": 1,
+ "note": "12주 1기 커리큘럼. 주 1~5일차=새 단어+회화, 6일차=복습 슛 게임의 날, 7일차=노래의 날. song.title=null은 사용자 선곡 대기.",
+ "daily_loop": [
+  "오늘의 단어",
+  "복습 카드",
+  "슛 미니게임",
+  "이주의 노래",
+  "오늘의 한 마디",
+  "보상 정산"
+ ],
+ "weeks": [
+  {
+   "week": 1,
+   "stage": 1,
+   "theme_ko": "알파벳 소리 1 (a~i)",
+   "song": {
+    "title": "Try Everything",
+    "artist": "Shakira",
+    "year": 2016,
+    "theme_ko": "실수해도 포기하지 않고 다시 도전하는 용기 (주토피아 OST)",
+    "words": [
+     {
+      "en": "try",
+      "ko": "도전하다",
+      "emoji": "💪"
+     },
+     {
+      "en": "fly",
+      "ko": "날다",
+      "emoji": "🕊️"
+     },
+     {
+      "en": "again",
+      "ko": "다시",
+      "emoji": "🔁"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [
+      "a",
+      "b"
+     ],
+     "words": [
+      {
+       "en": "apple",
+       "ko": "사과",
+       "emoji": "🍎"
+      },
+      {
+       "en": "ball",
+       "ko": "공",
+       "emoji": "⚽"
+      }
+     ],
+     "phrase": {
+      "en": "Hello!",
+      "ko": "안녕하세요!"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [
+      "c",
+      "d"
+     ],
+     "words": [
+      {
+       "en": "cat",
+       "ko": "고양이",
+       "emoji": "🐱"
+      },
+      {
+       "en": "dog",
+       "ko": "강아지",
+       "emoji": "🐶"
+      }
+     ],
+     "phrase": {
+      "en": "Hi! I'm ___.",
+      "ko": "안녕! 나는 ___(이)야."
+     }
+    },
+    {
+     "day": 3,
+     "letters": [
+      "e",
+      "f"
+     ],
+     "words": [
+      {
+       "en": "egg",
+       "ko": "달걀",
+       "emoji": "🥚"
+      },
+      {
+       "en": "fish",
+       "ko": "물고기",
+       "emoji": "🐟"
+      }
+     ],
+     "phrase": {
+      "en": "Good morning!",
+      "ko": "좋은 아침!"
+     }
+    },
+    {
+     "day": 4,
+     "letters": [
+      "g",
+      "h"
+     ],
+     "words": [
+      {
+       "en": "goal",
+       "ko": "골",
+       "emoji": "🥅"
+      },
+      {
+       "en": "hat",
+       "ko": "모자",
+       "emoji": "🧢"
+      }
+     ],
+     "phrase": {
+      "en": "Good night!",
+      "ko": "잘 자요!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [
+      "i"
+     ],
+     "words": [
+      {
+       "en": "ice",
+       "ko": "얼음",
+       "emoji": "🧊"
+      },
+      {
+       "en": "in",
+       "ko": "안에",
+       "emoji": "📥"
+      }
+     ],
+     "phrase": {
+      "en": "Bye!",
+      "ko": "잘 가!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 2,
+   "stage": 1,
+   "theme_ko": "알파벳 소리 2 (j~r)",
+   "song": {
+    "title": "Happy",
+    "artist": "Pharrell Williams",
+    "year": 2013,
+    "theme_ko": "행복은 내가 만드는 것",
+    "words": [
+     {
+      "en": "happy",
+      "ko": "행복한",
+      "emoji": "😊"
+     },
+     {
+      "en": "clap",
+      "ko": "박수 치다",
+      "emoji": "👏"
+     },
+     {
+      "en": "sunshine",
+      "ko": "햇살",
+      "emoji": "☀️"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [
+      "j",
+      "k"
+     ],
+     "words": [
+      {
+       "en": "jump",
+       "ko": "점프하다",
+       "emoji": "🦘"
+      },
+      {
+       "en": "kick",
+       "ko": "차다",
+       "emoji": "🦵"
+      }
+     ],
+     "phrase": {
+      "en": "How are you?",
+      "ko": "잘 지내?"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [
+      "l",
+      "m"
+     ],
+     "words": [
+      {
+       "en": "lion",
+       "ko": "사자",
+       "emoji": "🦁"
+      },
+      {
+       "en": "milk",
+       "ko": "우유",
+       "emoji": "🥛"
+      }
+     ],
+     "phrase": {
+      "en": "I'm good!",
+      "ko": "좋아!"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [
+      "n",
+      "o"
+     ],
+     "words": [
+      {
+       "en": "net",
+       "ko": "골망",
+       "emoji": "🥅"
+      },
+      {
+       "en": "orange",
+       "ko": "오렌지",
+       "emoji": "🍊"
+      }
+     ],
+     "phrase": {
+      "en": "Nice to meet you!",
+      "ko": "만나서 반가워!"
+     }
+    },
+    {
+     "day": 4,
+     "letters": [
+      "p",
+      "q"
+     ],
+     "words": [
+      {
+       "en": "pig",
+       "ko": "돼지",
+       "emoji": "🐷"
+      },
+      {
+       "en": "queen",
+       "ko": "여왕",
+       "emoji": "👑"
+      }
+     ],
+     "phrase": {
+      "en": "See you!",
+      "ko": "또 봐!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [
+      "r"
+     ],
+     "words": [
+      {
+       "en": "run",
+       "ko": "달리다",
+       "emoji": "🏃"
+      },
+      {
+       "en": "rain",
+       "ko": "비",
+       "emoji": "🌧️"
+      }
+     ],
+     "phrase": {
+      "en": "Let's run!",
+      "ko": "달리자!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 3,
+   "stage": 1,
+   "theme_ko": "알파벳 소리 3 (s~z)",
+   "song": {
+    "title": "This Is Me",
+    "artist": "위대한 쇼맨 OST",
+    "year": 2017,
+    "theme_ko": "있는 그대로의 나를 사랑하기",
+    "words": [
+     {
+      "en": "me",
+      "ko": "나",
+      "emoji": "🙋"
+     },
+     {
+      "en": "brave",
+      "ko": "용감한",
+      "emoji": "🦸"
+     },
+     {
+      "en": "drum",
+      "ko": "북",
+      "emoji": "🥁"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [
+      "s",
+      "t"
+     ],
+     "words": [
+      {
+       "en": "sun",
+       "ko": "해",
+       "emoji": "☀️"
+      },
+      {
+       "en": "team",
+       "ko": "팀",
+       "emoji": "👥"
+      }
+     ],
+     "phrase": {
+      "en": "What's your name?",
+      "ko": "이름이 뭐야?"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [
+      "u",
+      "v"
+     ],
+     "words": [
+      {
+       "en": "up",
+       "ko": "위로",
+       "emoji": "⬆️"
+      },
+      {
+       "en": "van",
+       "ko": "밴(차)",
+       "emoji": "🚐"
+      }
+     ],
+     "phrase": {
+      "en": "My name is ___.",
+      "ko": "내 이름은 ___(이)야."
+     }
+    },
+    {
+     "day": 3,
+     "letters": [
+      "w",
+      "x"
+     ],
+     "words": [
+      {
+       "en": "win",
+       "ko": "이기다",
+       "emoji": "🏆"
+      },
+      {
+       "en": "box",
+       "ko": "상자",
+       "emoji": "📦"
+      }
+     ],
+     "phrase": {
+      "en": "Thank you!",
+      "ko": "고마워!"
+     }
+    },
+    {
+     "day": 4,
+     "letters": [
+      "y",
+      "z"
+     ],
+     "words": [
+      {
+       "en": "yellow",
+       "ko": "노란색",
+       "emoji": "💛"
+      },
+      {
+       "en": "zoo",
+       "ko": "동물원",
+       "emoji": "🦓"
+      }
+     ],
+     "phrase": {
+      "en": "You're welcome!",
+      "ko": "천만에!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "soccer",
+       "ko": "축구",
+       "emoji": "⚽"
+      },
+      {
+       "en": "play",
+       "ko": "놀다, (경기)하다",
+       "emoji": "🤸"
+      }
+     ],
+     "phrase": {
+      "en": "Let's play soccer!",
+      "ko": "축구하자!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 4,
+   "stage": 2,
+   "theme_ko": "색깔",
+   "song": {
+    "title": "Firework",
+    "artist": "Katy Perry",
+    "year": 2010,
+    "theme_ko": "내 안에 빛나는 잠재력 (색깔 주간과 어울리는 불꽃)",
+    "words": [
+     {
+      "en": "firework",
+      "ko": "불꽃놀이",
+      "emoji": "🎆"
+     },
+     {
+      "en": "light",
+      "ko": "빛",
+      "emoji": "💡"
+     },
+     {
+      "en": "sky",
+      "ko": "하늘",
+      "emoji": "🌌"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "red",
+       "ko": "빨간색",
+       "emoji": "🔴"
+      },
+      {
+       "en": "blue",
+       "ko": "파란색",
+       "emoji": "🔵"
+      }
+     ],
+     "phrase": {
+      "en": "It's red.",
+      "ko": "이건 빨간색이야."
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "green",
+       "ko": "초록색",
+       "emoji": "🟢"
+      },
+      {
+       "en": "black",
+       "ko": "검은색",
+       "emoji": "⚫"
+      }
+     ],
+     "phrase": {
+      "en": "What color is it?",
+      "ko": "무슨 색이야?"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "white",
+       "ko": "흰색",
+       "emoji": "⚪"
+      },
+      {
+       "en": "pink",
+       "ko": "분홍색",
+       "emoji": "🩷"
+      }
+     ],
+     "phrase": {
+      "en": "I like pink.",
+      "ko": "나는 분홍색이 좋아."
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "purple",
+       "ko": "보라색",
+       "emoji": "🟣"
+      },
+      {
+       "en": "brown",
+       "ko": "갈색",
+       "emoji": "🟤"
+      }
+     ],
+     "phrase": {
+      "en": "I like blue.",
+      "ko": "나는 파란색이 좋아."
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "color",
+       "ko": "색깔",
+       "emoji": "🎨"
+      },
+      {
+       "en": "rainbow",
+       "ko": "무지개",
+       "emoji": "🌈"
+      }
+     ],
+     "phrase": {
+      "en": "Wow, a rainbow!",
+      "ko": "와, 무지개다!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 5,
+   "stage": 2,
+   "theme_ko": "숫자 1~10",
+   "song": {
+    "title": "Count on Me",
+    "artist": "Bruno Mars",
+    "year": 2010,
+    "theme_ko": "1, 2, 3처럼 믿을 수 있는 우정 (숫자 주간 찰떡)",
+    "words": [
+     {
+      "en": "count",
+      "ko": "세다",
+      "emoji": "🔢"
+     },
+     {
+      "en": "friend",
+      "ko": "친구",
+      "emoji": "🧑‍🤝‍🧑"
+     },
+     {
+      "en": "help",
+      "ko": "돕다",
+      "emoji": "🤝"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "one",
+       "ko": "하나(1)",
+       "emoji": "1️⃣"
+      },
+      {
+       "en": "two",
+       "ko": "둘(2)",
+       "emoji": "2️⃣"
+      }
+     ],
+     "phrase": {
+      "en": "How old are you?",
+      "ko": "몇 살이야?"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "three",
+       "ko": "셋(3)",
+       "emoji": "3️⃣"
+      },
+      {
+       "en": "four",
+       "ko": "넷(4)",
+       "emoji": "4️⃣"
+      }
+     ],
+     "phrase": {
+      "en": "I'm eight!",
+      "ko": "나는 여덟 살이야!"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "five",
+       "ko": "다섯(5)",
+       "emoji": "5️⃣"
+      },
+      {
+       "en": "six",
+       "ko": "여섯(6)",
+       "emoji": "6️⃣"
+      }
+     ],
+     "phrase": {
+      "en": "Let's count!",
+      "ko": "세어 보자!"
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "seven",
+       "ko": "일곱(7)",
+       "emoji": "7️⃣"
+      },
+      {
+       "en": "eight",
+       "ko": "여덟(8)",
+       "emoji": "8️⃣"
+      }
+     ],
+     "phrase": {
+      "en": "High five!",
+      "ko": "하이파이브!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "nine",
+       "ko": "아홉(9)",
+       "emoji": "9️⃣"
+      },
+      {
+       "en": "ten",
+       "ko": "열(10)",
+       "emoji": "🔟"
+      }
+     ],
+     "phrase": {
+      "en": "Ten goals!",
+      "ko": "10골이다!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 6,
+   "stage": 2,
+   "theme_ko": "동물",
+   "song": {
+    "title": "Roar",
+    "artist": "Katy Perry",
+    "year": 2013,
+    "theme_ko": "내 목소리를 크게 내는 용기 (동물 주간 찰떡)",
+    "words": [
+     {
+      "en": "roar",
+      "ko": "으르렁대다",
+      "emoji": "🦁"
+     },
+     {
+      "en": "champion",
+      "ko": "챔피언",
+      "emoji": "🏆"
+     },
+     {
+      "en": "loud",
+      "ko": "큰 소리로",
+      "emoji": "📢"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "bird",
+       "ko": "새",
+       "emoji": "🐦"
+      },
+      {
+       "en": "rabbit",
+       "ko": "토끼",
+       "emoji": "🐰"
+      }
+     ],
+     "phrase": {
+      "en": "Do you like cats?",
+      "ko": "고양이 좋아해?"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "bear",
+       "ko": "곰",
+       "emoji": "🐻"
+      },
+      {
+       "en": "monkey",
+       "ko": "원숭이",
+       "emoji": "🐵"
+      }
+     ],
+     "phrase": {
+      "en": "Yes, I do!",
+      "ko": "응, 좋아해!"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "horse",
+       "ko": "말",
+       "emoji": "🐴"
+      },
+      {
+       "en": "duck",
+       "ko": "오리",
+       "emoji": "🦆"
+      }
+     ],
+     "phrase": {
+      "en": "No, I don't.",
+      "ko": "아니, 안 좋아해."
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "tiger",
+       "ko": "호랑이",
+       "emoji": "🐯"
+      },
+      {
+       "en": "elephant",
+       "ko": "코끼리",
+       "emoji": "🐘"
+      }
+     ],
+     "phrase": {
+      "en": "Look! A tiger!",
+      "ko": "봐! 호랑이야!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "frog",
+       "ko": "개구리",
+       "emoji": "🐸"
+      },
+      {
+       "en": "snake",
+       "ko": "뱀",
+       "emoji": "🐍"
+      }
+     ],
+     "phrase": {
+      "en": "I have a dog.",
+      "ko": "나는 강아지를 키워."
+     }
+    }
+   ]
+  },
+  {
+   "week": 7,
+   "stage": 2,
+   "theme_ko": "가족",
+   "song": {
+    "title": "A Million Dreams",
+    "artist": "위대한 쇼맨 OST",
+    "year": 2017,
+    "theme_ko": "가족과 함께 꿈꾸는 세상",
+    "words": [
+     {
+      "en": "dream",
+      "ko": "꿈",
+      "emoji": "💭"
+     },
+     {
+      "en": "million",
+      "ko": "백만(아주 많이)",
+      "emoji": "💯"
+     },
+     {
+      "en": "world",
+      "ko": "세상",
+      "emoji": "🌍"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "mom",
+       "ko": "엄마",
+       "emoji": "👩"
+      },
+      {
+       "en": "dad",
+       "ko": "아빠",
+       "emoji": "👨"
+      }
+     ],
+     "phrase": {
+      "en": "This is my mom.",
+      "ko": "우리 엄마야."
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "sister",
+       "ko": "언니/누나/여동생",
+       "emoji": "👧"
+      },
+      {
+       "en": "brother",
+       "ko": "오빠/형/남동생",
+       "emoji": "👦"
+      }
+     ],
+     "phrase": {
+      "en": "This is my brother.",
+      "ko": "내 형제야."
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "baby",
+       "ko": "아기",
+       "emoji": "👶"
+      },
+      {
+       "en": "family",
+       "ko": "가족",
+       "emoji": "👨‍👩‍👧‍👦"
+      }
+     ],
+     "phrase": {
+      "en": "I love my family.",
+      "ko": "나는 우리 가족을 사랑해."
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "grandma",
+       "ko": "할머니",
+       "emoji": "👵"
+      },
+      {
+       "en": "grandpa",
+       "ko": "할아버지",
+       "emoji": "👴"
+      }
+     ],
+     "phrase": {
+      "en": "Who is this?",
+      "ko": "이분은 누구야?"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "love",
+       "ko": "사랑하다",
+       "emoji": "❤️"
+      },
+      {
+       "en": "hug",
+       "ko": "안아주다",
+       "emoji": "🤗"
+      }
+     ],
+     "phrase": {
+      "en": "I love you!",
+      "ko": "사랑해요!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 8,
+   "stage": 2,
+   "theme_ko": "축구 특집 ⚽",
+   "song": {
+    "title": "Waka Waka (This Time for Africa)",
+    "artist": "Shakira",
+    "year": 2010,
+    "theme_ko": "넘어지면 다시 일어나 (월드컵 주제가, 축구 특집 찰떡)",
+    "words": [
+     {
+      "en": "fall",
+      "ko": "넘어지다",
+      "emoji": "⬇️"
+     },
+     {
+      "en": "stand up",
+      "ko": "일어서다",
+      "emoji": "🧍"
+     },
+     {
+      "en": "today",
+      "ko": "오늘",
+      "emoji": "📅"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "pass",
+       "ko": "패스하다",
+       "emoji": "🔄"
+      },
+      {
+       "en": "shoot",
+       "ko": "슛하다",
+       "emoji": "🎯"
+      }
+     ],
+     "phrase": {
+      "en": "Pass the ball!",
+      "ko": "공을 패스해!"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "player",
+       "ko": "선수",
+       "emoji": "🏃‍♂️"
+      },
+      {
+       "en": "captain",
+       "ko": "주장",
+       "emoji": "©️"
+      }
+     ],
+     "phrase": {
+      "en": "Shoot!",
+      "ko": "슛 해!"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "fast",
+       "ko": "빠른",
+       "emoji": "⚡"
+      },
+      {
+       "en": "slow",
+       "ko": "느린",
+       "emoji": "🐢"
+      }
+     ],
+     "phrase": {
+      "en": "I can run fast!",
+      "ko": "나는 빨리 달릴 수 있어!"
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "catch",
+       "ko": "잡다",
+       "emoji": "🧤"
+      },
+      {
+       "en": "throw",
+       "ko": "던지다",
+       "emoji": "🤾"
+      }
+     ],
+     "phrase": {
+      "en": "We are a team!",
+      "ko": "우리는 한 팀이야!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "score",
+       "ko": "득점하다",
+       "emoji": "🔢"
+      },
+      {
+       "en": "field",
+       "ko": "운동장",
+       "emoji": "🏟️"
+      }
+     ],
+     "phrase": {
+      "en": "Goal! We win!",
+      "ko": "골! 우리가 이겼어!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 9,
+   "stage": 3,
+   "theme_ko": "음식",
+   "song": {
+    "title": "Dynamite",
+    "artist": "BTS",
+    "year": 2020,
+    "theme_ko": "평범한 하루를 빛나게",
+    "words": [
+     {
+      "en": "star",
+      "ko": "별",
+      "emoji": "⭐"
+     },
+     {
+      "en": "night",
+      "ko": "밤",
+      "emoji": "🌙"
+     },
+     {
+      "en": "fun",
+      "ko": "재미",
+      "emoji": "🎉"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "banana",
+       "ko": "바나나",
+       "emoji": "🍌"
+      },
+      {
+       "en": "water",
+       "ko": "물",
+       "emoji": "💧"
+      }
+     ],
+     "phrase": {
+      "en": "I'm hungry.",
+      "ko": "배고파요."
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "rice",
+       "ko": "밥",
+       "emoji": "🍚"
+      },
+      {
+       "en": "bread",
+       "ko": "빵",
+       "emoji": "🍞"
+      }
+     ],
+     "phrase": {
+      "en": "Can I have water?",
+      "ko": "물 마셔도 돼요?"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "pizza",
+       "ko": "피자",
+       "emoji": "🍕"
+      },
+      {
+       "en": "juice",
+       "ko": "주스",
+       "emoji": "🧃"
+      }
+     ],
+     "phrase": {
+      "en": "Here you are.",
+      "ko": "여기 있어."
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "cookie",
+       "ko": "쿠키",
+       "emoji": "🍪"
+      },
+      {
+       "en": "ice cream",
+       "ko": "아이스크림",
+       "emoji": "🍦"
+      }
+     ],
+     "phrase": {
+      "en": "Yummy!",
+      "ko": "맛있다!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "chicken",
+       "ko": "치킨",
+       "emoji": "🍗"
+      },
+      {
+       "en": "candy",
+       "ko": "사탕",
+       "emoji": "🍬"
+      }
+     ],
+     "phrase": {
+      "en": "I like pizza!",
+      "ko": "나는 피자가 좋아!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 10,
+   "stage": 3,
+   "theme_ko": "몸과 동작 (몸으로 따라하기)",
+   "song": {
+    "title": "Can't Stop the Feeling!",
+    "artist": "Justin Timberlake",
+    "year": 2016,
+    "theme_ko": "몸이 절로 움직이는 기쁨 (트롤 OST, 몸 주간 찰떡)",
+    "words": [
+     {
+      "en": "dance",
+      "ko": "춤추다",
+      "emoji": "💃"
+     },
+     {
+      "en": "feeling",
+      "ko": "기분",
+      "emoji": "💓"
+     },
+     {
+      "en": "move",
+      "ko": "움직이다",
+      "emoji": "🕺"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "head",
+       "ko": "머리",
+       "emoji": "🙆"
+      },
+      {
+       "en": "hand",
+       "ko": "손",
+       "emoji": "✋"
+      }
+     ],
+     "phrase": {
+      "en": "Touch your head!",
+      "ko": "머리를 만져 봐!"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "foot",
+       "ko": "발",
+       "emoji": "🦶"
+      },
+      {
+       "en": "eye",
+       "ko": "눈",
+       "emoji": "👁️"
+      }
+     ],
+     "phrase": {
+      "en": "Jump!",
+      "ko": "점프해!"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "nose",
+       "ko": "코",
+       "emoji": "👃"
+      },
+      {
+       "en": "mouth",
+       "ko": "입",
+       "emoji": "👄"
+      }
+     ],
+     "phrase": {
+      "en": "Stop!",
+      "ko": "멈춰!"
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "ear",
+       "ko": "귀",
+       "emoji": "👂"
+      },
+      {
+       "en": "arm",
+       "ko": "팔",
+       "emoji": "💪"
+      }
+     ],
+     "phrase": {
+      "en": "Wash your hands!",
+      "ko": "손을 씻어!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "leg",
+       "ko": "다리",
+       "emoji": "🦵"
+      },
+      {
+       "en": "walk",
+       "ko": "걷다",
+       "emoji": "🚶"
+      }
+     ],
+     "phrase": {
+      "en": "Shake your body!",
+      "ko": "몸을 흔들어 봐!"
+     }
+    }
+   ]
+  },
+  {
+   "week": 11,
+   "stage": 3,
+   "theme_ko": "학교",
+   "song": {
+    "title": "Permission to Dance",
+    "artist": "BTS",
+    "year": 2021,
+    "theme_ko": "걱정하지 말고 마음껏 즐겨",
+    "words": [
+     {
+      "en": "sing",
+      "ko": "노래하다",
+      "emoji": "🎤"
+     },
+     {
+      "en": "worry",
+      "ko": "걱정하다",
+      "emoji": "😟"
+     },
+     {
+      "en": "smile",
+      "ko": "미소 짓다",
+      "emoji": "😄"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "book",
+       "ko": "책",
+       "emoji": "📚"
+      },
+      {
+       "en": "pen",
+       "ko": "펜",
+       "emoji": "🖊️"
+      }
+     ],
+     "phrase": {
+      "en": "Let's go to school!",
+      "ko": "학교에 가자!"
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "bag",
+       "ko": "가방",
+       "emoji": "🎒"
+      },
+      {
+       "en": "desk",
+       "ko": "책상",
+       "emoji": "🪑"
+      }
+     ],
+     "phrase": {
+      "en": "Open your book!",
+      "ko": "책을 펴세요!"
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "chair",
+       "ko": "의자",
+       "emoji": "💺"
+      },
+      {
+       "en": "teacher",
+       "ko": "선생님",
+       "emoji": "🧑‍🏫"
+      }
+     ],
+     "phrase": {
+      "en": "Sit down, please.",
+      "ko": "앉아 주세요."
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "friend",
+       "ko": "친구",
+       "emoji": "🧑‍🤝‍🧑"
+      },
+      {
+       "en": "school",
+       "ko": "학교",
+       "emoji": "🏫"
+      }
+     ],
+     "phrase": {
+      "en": "Stand up!",
+      "ko": "일어나세요!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "crayon",
+       "ko": "크레용",
+       "emoji": "🖍️"
+      },
+      {
+       "en": "paper",
+       "ko": "종이",
+       "emoji": "📄"
+      }
+     ],
+     "phrase": {
+      "en": "This is my friend.",
+      "ko": "내 친구야."
+     }
+    }
+   ]
+  },
+  {
+   "week": 12,
+   "stage": 3,
+   "theme_ko": "마법 단어와 문장 만들기 (총정리)",
+   "song": {
+    "title": "Golden",
+    "artist": "HUNTR/X (케이팝 데몬 헌터스 OST)",
+    "year": 2025,
+    "theme_ko": "숨지 않고 황금빛으로 빛나는 나 (시즌 피날레)",
+    "words": [
+     {
+      "en": "golden",
+      "ko": "황금빛의",
+      "emoji": "✨"
+     },
+     {
+      "en": "up",
+      "ko": "위로",
+      "emoji": "⬆️"
+     },
+     {
+      "en": "shine",
+      "ko": "빛나다",
+      "emoji": "🌟"
+     }
+    ]
+   },
+   "days": [
+    {
+     "day": 1,
+     "letters": [],
+     "words": [
+      {
+       "en": "I",
+       "ko": "나는",
+       "emoji": "🙋",
+       "sight": true
+      },
+      {
+       "en": "like",
+       "ko": "좋아하다",
+       "emoji": "👍",
+       "sight": true
+      }
+     ],
+     "phrase": {
+      "en": "I like soccer.",
+      "ko": "나는 축구가 좋아."
+     }
+    },
+    {
+     "day": 2,
+     "letters": [],
+     "words": [
+      {
+       "en": "it",
+       "ko": "그것",
+       "emoji": "👉",
+       "sight": true
+      },
+      {
+       "en": "is",
+       "ko": "~이다",
+       "emoji": "🟰",
+       "sight": true
+      }
+     ],
+     "phrase": {
+      "en": "It is a red ball.",
+      "ko": "그건 빨간 공이야."
+     }
+    },
+    {
+     "day": 3,
+     "letters": [],
+     "words": [
+      {
+       "en": "you",
+       "ko": "너는",
+       "emoji": "🫵",
+       "sight": true
+      },
+      {
+       "en": "my",
+       "ko": "나의",
+       "emoji": "💁",
+       "sight": true
+      }
+     ],
+     "phrase": {
+      "en": "You are my friend.",
+      "ko": "너는 내 친구야."
+     }
+    },
+    {
+     "day": 4,
+     "letters": [],
+     "words": [
+      {
+       "en": "can",
+       "ko": "~할 수 있다",
+       "emoji": "💪",
+       "sight": true
+      },
+      {
+       "en": "go",
+       "ko": "가다",
+       "emoji": "🏃",
+       "sight": true
+      }
+     ],
+     "phrase": {
+      "en": "I can do it!",
+      "ko": "나는 할 수 있어!"
+     }
+    },
+    {
+     "day": 5,
+     "letters": [],
+     "words": [
+      {
+       "en": "we",
+       "ko": "우리는",
+       "emoji": "👨‍👩‍👧‍👦",
+       "sight": true
+      },
+      {
+       "en": "see",
+       "ko": "보다",
+       "emoji": "👀",
+       "sight": true
+      }
+     ],
+     "phrase": {
+      "en": "Let's go! We did it!",
+      "ko": "가자! 우리가 해냈어!"
+     }
+    }
+   ]
+  }
+ ]
+}
