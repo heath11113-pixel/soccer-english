@@ -36,6 +36,37 @@
     <button id="btn-cards" class="big gold">🃏 내 카드</button>
     <button id="btn-song" class="big blue">🎤 노래방</button>
     <button id="btn-coupons" class="big pink">🎟️ 내 쿠폰</button>
+    <button id="btn-parent" class="textlink">👨‍👩‍👧 부모님</button>
+  </section>
+
+  <!-- 부모 진행 현황 화면 (간단한 잠금 통과 후) -->
+  <section id="screen-parent" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-parent-home" class="mini">🏠</button>
+      <span>부모님 화면</span>
+    </header>
+    <div id="parent-gate">
+      <div class="bubble">부모님 확인이에요.<br><b id="gate-q"></b> 의 답을 적어 주세요.</div>
+      <input id="gate-input" type="number" inputmode="numeric" placeholder="답">
+      <button id="gate-ok" class="big green">확인</button>
+      <div id="gate-fb" class="say-fb"></div>
+    </div>
+    <div id="parent-dash" class="hidden"></div>
+  </section>
+
+  <!-- 노래방 가사 하이라이트 화면 -->
+  <section id="screen-karaoke" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-karaoke-back" class="mini">◀ 노래</button>
+      <button id="btn-karaoke-home" class="mini">🏠</button>
+    </header>
+    <div id="karaoke-title" class="brand" style="font-size:1.1rem"></div>
+    <div id="k-player-wrap"><div id="k-player"></div></div>
+    <div class="karaoke-ctrl">
+      <button id="k-minus" class="say-btn">⏪ 가사 -1초</button>
+      <button id="k-plus" class="say-btn">가사 +1초 ⏩</button>
+    </div>
+    <div id="karaoke-lyrics"></div>
   </section>
 
   <!-- 현금 쿠폰 화면 -->

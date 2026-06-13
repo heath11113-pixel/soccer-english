@@ -642,6 +642,13 @@ function openSong(s) {
     '<div class="word-card"><div class="en" style="font-size:1.3rem">' + s.title + '</div>' +
     '<div class="ko">' + s.artist + '<br>' + s.theme_ko + '</div></div>';
   if (s.videoId) area.appendChild(videoCard(s.videoId, s.title));
+  if (s.videoId) {
+    const kb = document.createElement('button');
+    kb.className = 'speak-btn';
+    kb.textContent = '🎤 가사 보며 노래방';
+    kb.onclick = () => openKaraoke(s);
+    area.appendChild(kb);
+  }
   (s.words || []).forEach(wd => {
     const c = document.createElement('div');
     c.className = 'word-card';
@@ -688,6 +695,149 @@ function renderCoupons() {
   show('screen-coupons');
 }
 
+// ---------- 노래방 가사 하이라이트 (재생 시 LRCLIB에서 받아옴, 앱에 가사 저장 안 함) ----------
+let ytApiState = 0;  // 0 미로드 1 로딩중 2 준비됨
+let ytReadyCbs = [];
+function loadYTApi(cb) {
+  if (ytApiState === 2) return cb();
+  ytReadyCbs.push(cb);
+  if (ytApiState === 1) return;
+  ytApiState = 1;
+  window.onYouTubeIframeAPIReady = () => { ytApiState = 2; ytReadyCbs.forEach(f => f()); ytReadyCbs = []; };
+  const t = document.createElement('script');
+  t.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(t);
+}
+function parseLRC(text) {
+  const out = [];
+  (text || '').split('\n').forEach(line => {
+    const m = line.match(/^\[(\d+):(\d+)(?:\.(\d+))?\]\s*(.*)$/);
+    if (m) {
+      const t = (+m[1]) * 60 + (+m[2]) + (m[3] ? parseFloat('0.' + m[3]) : 0);
+      const txt = (m[4] || '').trim();
+      if (txt) out.push({ t: t, txt: txt });
+    }
+  });
+  return out;
+}
+let kPlayer = null, kTimer = null, kLines = [], kOffset = 0, kActive = -1;
+function stopKaraoke() {
+  if (kTimer) { clearInterval(kTimer); kTimer = null; }
+  try { if (kPlayer && kPlayer.destroy) kPlayer.destroy(); } catch (e) {}
+  kPlayer = null;
+  const wrap = $('k-player-wrap');
+  if (wrap) wrap.innerHTML = '<div id="k-player"></div>';
+}
+function openKaraoke(s) {
+  if (!s.videoId) { alert('이 곡은 영상이 없어 가사 따라보기를 할 수 없어요.'); return; }
+  kOffset = 0; kActive = -1; kLines = [];
+  $('karaoke-title').textContent = '🎤 ' + s.title;
+  $('karaoke-lyrics').innerHTML = '<div class="klyric">가사를 불러오는 중...</div>';
+  show('screen-karaoke');
+  stopKaraoke();
+  const q = s.title + ' ' + (s.artist || '');
+  fetch('https://lrclib.net/api/search?q=' + encodeURIComponent(q))
+    .then(r => r.json())
+    .then(list => {
+      const hit = (list || []).find(x => x.syncedLyrics);
+      if (!hit) {
+        $('karaoke-lyrics').innerHTML = '<div class="klyric">이 곡은 가사 따라보기가 준비되지 않았어요.<br>위 영상으로 즐겨요! 🎵</div>';
+      } else {
+        kLines = parseLRC(hit.syncedLyrics);
+        renderKLyrics();
+      }
+      loadYTApi(() => {
+        kPlayer = new YT.Player('k-player', {
+          videoId: s.videoId,
+          playerVars: { playsinline: 1, rel: 0, autoplay: 1 },
+          events: { onReady: () => { if (kLines.length) startKaraokeLoop(); } }
+        });
+      });
+    })
+    .catch(() => {
+      $('karaoke-lyrics').innerHTML = '<div class="klyric">가사를 불러오지 못했어요. 영상으로 즐겨요! 🎵</div>';
+      loadYTApi(() => { kPlayer = new YT.Player('k-player', { videoId: s.videoId, playerVars: { playsinline: 1, rel: 0, autoplay: 1 } }); });
+    });
+}
+function renderKLyrics() {
+  const box = $('karaoke-lyrics');
+  box.innerHTML = '';
+  kLines.forEach((ln, i) => {
+    const d = document.createElement('div');
+    d.className = 'klyric';
+    d.id = 'kl-' + i;
+    d.textContent = ln.txt;
+    d.onclick = () => { try { if (kPlayer && kPlayer.seekTo) kPlayer.seekTo(Math.max(0, ln.t - kOffset), true); } catch (e) {} };
+    box.appendChild(d);
+  });
+}
+function startKaraokeLoop() {
+  if (kTimer) clearInterval(kTimer);
+  kTimer = setInterval(() => {
+    if (!kPlayer || !kPlayer.getCurrentTime) return;
+    let now;
+    try { now = kPlayer.getCurrentTime() + kOffset; } catch (e) { return; }
+    let idx = -1;
+    for (let i = 0; i < kLines.length; i++) { if (kLines[i].t <= now) idx = i; else break; }
+    if (idx !== kActive) {
+      const prev = $('kl-' + kActive); if (prev) prev.classList.remove('active');
+      const cur = $('kl-' + idx);
+      if (cur) {
+        cur.classList.add('active');
+        cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+      kActive = idx;
+    }
+  }, 250);
+}
+
+// ---------- 부모 진행 현황 ----------
+let gateAnswer = 0;
+function openParentGate() {
+  const a = 6 + Math.floor(Math.random() * 4), b = 6 + Math.floor(Math.random() * 4);
+  gateAnswer = a * b;
+  $('gate-q').textContent = a + ' × ' + b;
+  $('gate-input').value = '';
+  $('gate-fb').textContent = '';
+  $('parent-gate').classList.remove('hidden');
+  $('parent-dash').classList.add('hidden');
+  show('screen-parent');
+}
+function checkGate() {
+  if (parseInt($('gate-input').value, 10) === gateAnswer) {
+    $('parent-gate').classList.add('hidden');
+    renderParentDash();
+  } else {
+    $('gate-fb').textContent = '답이 달라요. 다시 확인해 주세요.';
+    $('gate-fb').className = 'say-fb retry';
+  }
+}
+function statRow(lbl, val, cls) {
+  return '<div class="stat-card"><span class="lbl">' + lbl + '</span><span class="val ' + (cls || '') + '">' + val + '</span></div>';
+}
+function renderParentDash() {
+  const dash = $('parent-dash');
+  const totalDays = 12 * 7;
+  const doneDays = (S.week - 1) * 7 + (S.day - 1);
+  const pct = Math.min(100, Math.round(doneDays / totalDays * 100));
+  const dueCount = S.learned.filter(x => x.due <= today()).length;
+  const unusedCoupon = S.coupons.filter(c => !c.used);
+  const unusedAmt = unusedCoupon.reduce((a, c) => a + c.amount, 0);
+  const totalAmt = S.coupons.reduce((a, c) => a + c.amount, 0);
+  dash.innerHTML =
+    '<div class="bubble"><b>' + (S.name || '우리 아이') + '</b> 의 학습 현황이에요</div>' +
+    statRow('진도', S.week + '주차 ' + S.day + '일차 (' + pct + '%)', 'accent') +
+    statRow('연속 출석', S.streak + '일', 'accent') +
+    statRow('가진 코인', S.coins + ' 🪙', '') +
+    statRow('배운 단어', S.learned.length + '개', '') +
+    statRow('오늘 복습할 단어', dueCount + '개', '') +
+    statRow('모은 카드', S.cards.length + ' / 12', '') +
+    statRow('받은 쿠폰', S.coupons.length + '장 (누적 ' + totalAmt.toLocaleString() + '원)', 'gold') +
+    statRow('아직 안 준 쿠폰', unusedCoupon.length + '장 (' + unusedAmt.toLocaleString() + '원)', 'gold') +
+    statRow('마지막 학습일', (S.lastDone || '아직 없음'), '');
+  dash.classList.remove('hidden');
+}
+
 // ---------- 시작/이벤트 ----------
 function init() {
   load();
@@ -723,6 +873,11 @@ function init() {
   $('btn-coupons').onclick = renderCoupons;
   $('btn-coupons-home').onclick = renderHome;
   $('btn-pack').onclick = openPack;
+  $('btn-parent').onclick = openParentGate;
+  $('btn-parent-home').onclick = renderHome;
+  $('gate-ok').onclick = checkGate;
+  $('btn-karaoke-back').onclick = () => { stopKaraoke(); renderSongRoom(); };
+  $('btn-karaoke-home').onclick = () => { stopKaraoke(); renderHome(); };
 
   if ('serviceWorker' in navigator && location.protocol !== 'file:') {
     navigator.serviceWorker.register('sw.js').catch(() => {});

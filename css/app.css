@@ -187,3 +187,35 @@ h2 { color: var(--text); margin: 4px 0; font-size: 1.25rem; letter-spacing: .02e
   border: 1px solid var(--line); border-radius: 16px; line-height: 1.5;
 }
 .lyric-ko { width: 100%; text-align: center; color: var(--muted); font-size: 1rem; }
+
+/* 홈 부모 링크 */
+.textlink {
+  background: transparent; color: var(--muted); border: none;
+  font-size: .92rem; min-height: 40px; margin-top: 4px; text-decoration: underline;
+}
+
+/* 부모 진행 현황 */
+#parent-gate, #parent-dash { width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.stat-card {
+  width: 100%; background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+  padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;
+}
+.stat-card .lbl { color: var(--muted); font-size: .95rem; }
+.stat-card .val { color: var(--text); font-size: 1.15rem; font-weight: 800; }
+.stat-card .val.accent { color: var(--accent); }
+.stat-card .val.gold { color: var(--gold); }
+
+/* 노래방 가사 하이라이트 */
+#k-player-wrap { width: 100%; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: #000; }
+#k-player, #k-player iframe { width: 100%; height: 100%; border: 0; }
+.karaoke-ctrl { display: flex; gap: 8px; width: 100%; }
+.karaoke-ctrl .say-btn { flex: 1; }
+#karaoke-lyrics {
+  width: 100%; max-height: 42vh; overflow-y: auto; display: flex; flex-direction: column; gap: 2px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px;
+}
+.klyric {
+  padding: 10px 12px; border-radius: 10px; text-align: center; cursor: pointer;
+  color: var(--muted); font-size: 1.05rem; transition: all .12s;
+}
+.klyric.active { color: var(--accent-ink); background: var(--accent); font-weight: 800; font-size: 1.2rem; }
