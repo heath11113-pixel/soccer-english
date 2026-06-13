@@ -58,10 +58,14 @@
       <button id="btn-chat-key" class="mini">🔑</button>
     </header>
     <div id="chat-setup" class="hidden">
-      <div class="bubble">부모님, 영어 대화를 켜려면 구글 제미나이 키를 한 번 넣어 주세요.<br>이 키는 이 폰에만 저장되고 외부에 올라가지 않아요.</div>
-      <input id="chat-key-input" type="text" placeholder="제미나이 API 키 붙여넣기" autocomplete="off">
-      <button id="chat-key-save" class="cta">저장하고 시작</button>
-      <div class="hint">키 발급(무료) = aistudio.google.com/apikey</div>
+      <div class="bubble">영어 대화는 부모님이 한 번 설정해야 켜져요. 🔒<br>아래 버튼을 눌러 부모님 확인을 해 주세요.</div>
+      <button id="chat-key-reveal" class="cta">🔒 부모님 설정 열기</button>
+      <div id="chat-key-form" class="hidden">
+        <div class="bubble">구글 제미나이 키를 넣어 주세요.<br>이 키는 이 폰에만 저장되고 외부에 올라가지 않아요.</div>
+        <input id="chat-key-input" type="text" placeholder="제미나이 API 키 붙여넣기" autocomplete="off">
+        <button id="chat-key-save" class="cta">저장하고 시작</button>
+        <div class="hint">키 발급(무료) = aistudio.google.com/apikey</div>
+      </div>
     </div>
     <div id="chat-main" class="hidden">
       <div id="chat-log"></div>
@@ -89,7 +93,7 @@
     </div>
     <div class="say-row">
       <button id="trace-prev" class="say-btn">◀ 이전</button>
-      <button id="trace-next" class="tnext">다음 ▶</button>
+      <button id="trace-next" class="tnext">✅ 다 썼어요!</button>
     </div>
   </section>
 

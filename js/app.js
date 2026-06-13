@@ -20,7 +20,8 @@ const DEFAULT_STATE = {
   v: 1, name: '', week: 1, day: 1,
   coins: 0, streak: 0, lastDone: null,
   cards: [], learned: [],  // learned: {en, ko, emoji, box, due}
-  coupons: []              // 주간 완주 현금 쿠폰 {week, amount, date, used}
+  coupons: [],             // 주간 완주 현금 쿠폰 {week, amount, date, used}
+  onboarded: false         // 첫 안내 봤는지
 };
 const COUPON_AMOUNT = 5000;
 
@@ -224,6 +225,8 @@ function renderHome() {
       ? '오늘 훈련 끝! 내일 또 만나요 😊'
       : (S.name || '친구') + ', 오늘도 훈련하러 가요!';
   }
+  const done = S.lastDone === today() && !!w;
+  $('btn-train').textContent = done ? '⚡  자유 연습 (복습)' : '▶  오늘의 훈련 시작';
   show('screen-home');
 }
 function curWeek() { return CUR.weeks.find(w => w.week === S.week) || null; }
@@ -306,6 +309,7 @@ function renderStep() {
   if (step === 'phrase') return uiPhrase();
   if (step === 'song') return uiSongDay();
   if (step === 'reward') return uiReward();
+  if (step === 'practiceEnd') return uiPracticeEnd();
 }
 
 // 1단계 — 오늘의 단어 (듣기 + 따라 말하기)
@@ -1036,6 +1040,16 @@ function traceMove(d) {
   traceIdx = (traceIdx + d + 26) % 26;
   renderTrace();
 }
+// 글자 다 쓰면 칭찬 후 다음 글자로
+function traceNextCelebrate() {
+  sfxGood();
+  const g = $('trace-guide');
+  g.style.color = 'rgba(163,230,53,.85)';
+  const star = document.createElement('div');
+  star.className = 'trace-star'; star.textContent = '⭐ 잘 썼어요!';
+  $('screen-trace').querySelector('.trace-stage').appendChild(star);
+  setTimeout(() => { star.remove(); g.style.color = ''; traceMove(1); }, 700);
+}
 
 // ---------- 영어 대화 (코치 바나나, 제미나이) — 키는 이 폰에만 저장 ----------
 const GKEY_STORE = 'ke_gkey';
@@ -1049,9 +1063,19 @@ const CHAT_SYS = [
   'After your English sentence, add the Korean translation on a new line in parentheses.'
 ].join(' ');
 function getGKey() { return localStorage.getItem(GKEY_STORE) || ''; }
+// 부모 확인(곱셈) 통과 시 cb 실행 — 아이가 못 들어가게
+function parentCheck(cb) {
+  const a = 6 + Math.floor(Math.random() * 4), b = 6 + Math.floor(Math.random() * 4);
+  const ans = prompt('부모님 확인이에요.\n' + a + ' × ' + b + ' = ?');
+  if (ans === null) return;
+  if (parseInt(ans, 10) === a * b) cb();
+  else alert('답이 달라요. 다시 시도해 주세요.');
+}
 function openChat() {
-  if (!getGKey()) { $('chat-setup').classList.remove('hidden'); $('chat-main').classList.add('hidden'); }
-  else { $('chat-setup').classList.add('hidden'); $('chat-main').classList.remove('hidden'); if (!chatHist.length) chatStart(); }
+  if (!getGKey()) {
+    $('chat-setup').classList.remove('hidden'); $('chat-main').classList.add('hidden');
+    $('chat-key-form').classList.add('hidden');   // 키 입력은 부모 확인 후에만 노출
+  } else { $('chat-setup').classList.add('hidden'); $('chat-main').classList.remove('hidden'); if (!chatHist.length) chatStart(); }
   show('screen-chat');
 }
 function saveGKey() {
@@ -1186,7 +1210,7 @@ function init() {
 
   $('btn-level-new').onclick = () => beginGame(1);
   $('btn-level-abc').onclick = () => beginGame(4);
-  $('btn-train').onclick = startLesson;
+  $('btn-train').onclick = startTrain;
   $('btn-cards').onclick = renderCards;
   $('btn-song').onclick = renderSongRoom;
   $('btn-songview-back').onclick = renderSongRoom;
@@ -1204,10 +1228,11 @@ function init() {
   $('trace-hear').onclick = () => speakEN(TRACE_LETTERS[traceIdx]);
   $('trace-clear').onclick = clearTrace;
   $('trace-prev').onclick = () => traceMove(-1);
-  $('trace-next').onclick = () => traceMove(1);
+  $('trace-next').onclick = traceNextCelebrate;
   $('btn-chat').onclick = openChat;
   $('btn-chat-home').onclick = renderHome;
-  $('btn-chat-key').onclick = () => { $('chat-setup').classList.remove('hidden'); $('chat-main').classList.add('hidden'); };
+  $('btn-chat-key').onclick = () => parentCheck(() => { $('chat-setup').classList.remove('hidden'); $('chat-main').classList.add('hidden'); $('chat-key-form').classList.remove('hidden'); });
+  $('chat-key-reveal').onclick = () => parentCheck(() => $('chat-key-form').classList.remove('hidden'));
   $('chat-key-save').onclick = saveGKey;
   $('chat-mic').onclick = chatListen;
   $('chat-type').onclick = chatType;
@@ -1224,8 +1249,44 @@ function beginGame(startWeek) {
   S.week = startWeek;
   S.day = 1;
   save();
-  speakKO((S.name || '친구') + ', 반가워! 같이 훈련하자!');
-  renderHome();
+  if (!S.onboarded) showOnboarding(); else renderHome();
+}
+// 첫 1회 안내 — 어떻게 노는지 + 보상 설명
+function showOnboarding() {
+  const ov = $('reveal-overlay');
+  ov.innerHTML = '<div class="reveal-box onboard">' +
+    '<div class="ob-logo">⚽</div>' +
+    '<div class="ob-title">이렇게 놀아요!</div>' +
+    '<div class="ob-row"><b>⚽ 매일 훈련</b><span>단어 듣고 따라 말하고 게임해요</span></div>' +
+    '<div class="ob-row"><b>🪙 코인</b><span>훈련을 마치면 받아요 (홈 위에 모여요)</span></div>' +
+    '<div class="ob-row"><b>🃏 카드</b><span>코인 100개로 멋진 선수 카드를 뽑아요</span></div>' +
+    '<div class="ob-row"><b>🎟️ 쿠폰</b><span>한 주를 다 하면 현금 쿠폰을 받아요</span></div>' +
+    '<button id="ob-start" class="cta">시작하기!</button></div>';
+  ov.classList.remove('hidden');
+  $('ob-start').onclick = () => { S.onboarded = true; save(); ov.classList.add('hidden'); renderHome(); };
+}
+
+// 오늘 훈련을 이미 했으면 자유 연습, 아니면 정규 훈련
+function startTrain() {
+  if (S.lastDone === today() && curWeek()) startPractice();
+  else startLesson();
+}
+function startPractice() {
+  let pool = S.learned.length
+    ? S.learned.map(x => ({ en: x.en, ko: x.ko, emoji: x.emoji }))
+    : (() => { const w = curWeek(); const a = []; if (w) w.days.forEach(d => d.words.forEach(x => a.push(x))); return a; })();
+  if (!pool.length) { startLesson(); return; }
+  L = { steps: ['shoot', 'practiceEnd'], idx: 0, correct: 0, total: 0, newWords: [], phrase: null, weekWords: shuffle(pool).slice(0, 8) };
+  show('screen-lesson');
+  renderStep();
+}
+function uiPracticeEnd() {
+  const area = $('lesson-area');
+  area.innerHTML = '<div class="reward-box"><div class="big-coin">⚡</div><b>자유 연습 끝! 잘했어요</b><br>' +
+    '<span class="reward-hint">연습은 코인을 주지 않지만 실력이 쑥쑥 늘어요!</span></div>';
+  sfxGood();
+  const b = document.createElement('button'); b.className = 'next-btn'; b.textContent = '🏠 홈으로'; b.onclick = renderHome;
+  area.appendChild(b);
 }
 
 document.addEventListener('DOMContentLoaded', init);

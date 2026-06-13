@@ -1,5 +1,5 @@
 // 오프라인 캐시 서비스워커 — 한 번 열면 인터넷 없이도 학습 가능
-const CACHE = 'ke-v14';
+const CACHE = 'ke-v15';
 const FILES = [
   './', './index.html', './css/app.css', './js/app.js',
   './data/curriculum.json', './data/audio_map.json', './manifest.json', './icon.svg'
