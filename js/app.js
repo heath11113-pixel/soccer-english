@@ -105,6 +105,7 @@ function show(id) {
 
 // ---------- 홈 ----------
 function renderHome() {
+  if (!CUR) return;   // 데이터 로딩 전 진입 방어
   $('hud-coins').textContent = '🪙 ' + S.coins;
   $('hud-streak').textContent = '🔥 ' + S.streak + '일';
   const unused = S.coupons.filter(c => !c.used).length;
