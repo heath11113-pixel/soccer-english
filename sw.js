@@ -1,5 +1,5 @@
 // 오프라인 캐시 서비스워커 — 한 번 열면 인터넷 없이도 학습 가능
-const CACHE = 'ke-v9';
+const CACHE = 'ke-v10';
 const FILES = [
   './', './index.html', './css/app.css', './js/app.js',
   './data/curriculum.json', './data/audio_map.json', './manifest.json', './icon.svg'
@@ -10,10 +10,15 @@ self.addEventListener('install', e => {
       await c.addAll(FILES);
       // 커스텀 곡 목록 + 원어민 발음 mp3도 캐시해서 오프라인 학습 가능하게
       try { await c.add('./data/custom_songs.json'); } catch (e) { /* 없을 수 있음 */ }
+      try { await c.add('./data/img_map.json'); } catch (e) { /* 없을 수 있음 */ }
       try {
         const map = await (await fetch('./data/audio_map.json')).json();
         await c.addAll([...new Set(Object.values(map))].map(p => './' + p));
       } catch (e) { /* 발음 캐시는 실패해도 앱은 동작 */ }
+      try {
+        const im = await (await fetch('./data/img_map.json')).json();
+        await c.addAll([...new Set(Object.values(im))].map(p => './' + p));
+      } catch (e) { /* 그림 캐시는 실패해도 앱은 동작 */ }
     })
   );
   self.skipWaiting();

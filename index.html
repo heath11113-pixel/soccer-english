@@ -44,8 +44,29 @@
       <button id="btn-cards" class="tile"><span class="ic">🃏</span>내 카드</button>
       <button id="btn-song" class="tile"><span class="ic">🎤</span>노래방</button>
       <button id="btn-coupons" class="tile"><span class="ic">🎟️</span>내 쿠폰</button>
+      <button id="btn-trace" class="tile"><span class="ic">✏️</span>글자 쓰기</button>
     </div>
     <button id="btn-parent" class="textlink">👨‍👩‍👧 부모님</button>
+  </section>
+
+  <!-- 알파벳 따라 쓰기 화면 -->
+  <section id="screen-trace" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-trace-home" class="mini">🏠</button>
+      <span id="trace-progress"></span>
+    </header>
+    <div class="trace-stage">
+      <div id="trace-guide" class="trace-guide">A</div>
+      <canvas id="trace-canvas"></canvas>
+    </div>
+    <div class="say-row">
+      <button id="trace-hear" class="say-btn">🔊 소리</button>
+      <button id="trace-clear" class="say-btn">🧽 지우기</button>
+    </div>
+    <div class="say-row">
+      <button id="trace-prev" class="say-btn">◀ 이전</button>
+      <button id="trace-next" class="tnext">다음 ▶</button>
+    </div>
   </section>
 
   <!-- 부모 진행 현황 화면 (간단한 잠금 통과 후) -->

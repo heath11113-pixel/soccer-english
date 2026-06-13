@@ -5,7 +5,15 @@
 const STORE_KEY = 'ke_state_v1';
 let CUR = null;   // curriculum.json
 let CUSTOM = [];  // custom_songs.json (부모가 추가한 곡)
+let IMG_MAP = {}; // 단어 -> 생성된 그림 경로 (없으면 이모지 폴백)
 let S = null;     // 저장 상태
+
+// 단어 그림: 생성된 이미지가 있으면 그림, 없으면 이모지 (학습 시각자료)
+function visualHTML(wd) {
+  const src = IMG_MAP[wd.en];
+  if (src) return '<img class="wv" src="' + src + '" alt="" loading="lazy">';
+  return '<span class="wv-emoji">' + (wd.emoji || '🔤') + '</span>';
+}
 
 const DEFAULT_STATE = {
   v: 1, name: '', week: 1, day: 1,
@@ -107,6 +115,32 @@ function listenFor(target, onResult, onUnsupported, onStart) {
   rec.onerror = (e) => { if (!done) { if (e.error === 'not-allowed' || e.error === 'service-not-allowed') onUnsupported && onUnsupported(); else onResult(false, ''); } };
   try { rec.start(); } catch (e) { onUnsupported && onUnsupported(); return null; }
   return rec;
+}
+
+// ---------- 내 발음 녹음 (MediaRecorder, 원어민과 비교 재생) ----------
+function recordSupported() { return !!(navigator.mediaDevices && window.MediaRecorder); }
+let recAudioUrl = null;
+// onState(state) 로 ui 갱신: 'recording' | 'done' | 'error'
+function recordVoice(seconds, onState) {
+  if (!recordSupported()) { onState('error'); return; }
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    const chunks = [];
+    let mr;
+    try { mr = new MediaRecorder(stream); } catch (e) { onState('error'); stream.getTracks().forEach(t => t.stop()); return; }
+    mr.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+    mr.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      if (recAudioUrl) { try { URL.revokeObjectURL(recAudioUrl); } catch (e) {} }
+      recAudioUrl = URL.createObjectURL(new Blob(chunks, { type: chunks[0] ? chunks[0].type : 'audio/webm' }));
+      onState('done');
+    };
+    mr.start();
+    onState('recording');
+    setTimeout(() => { try { mr.stop(); } catch (e) {} }, seconds * 1000);
+  }).catch(() => onState('error'));
+}
+function playRecording() {
+  if (recAudioUrl) { try { new Audio(recAudioUrl).play(); } catch (e) {} }
 }
 
 // ---------- 효과음 (파일 없이 WebAudio) ----------
@@ -231,7 +265,7 @@ function buildLesson() {
   if (S.day === 6) {
     const weekWords = [];
     w.days.forEach(d => d.words.forEach(x => weekWords.push(x)));
-    return { steps: ['shoot', 'reward'], idx: 0, correct: 0, total: 0, newWords: [], phrase: null, weekWords };
+    return { steps: ['boss', 'reward'], idx: 0, correct: 0, total: 0, newWords: [], phrase: null, weekWords };
   }
   // day 7 = 노래의 날 (노래 핵심 단어도 그날의 새 단어로 학습)
   const weekWords = [];
@@ -260,6 +294,7 @@ function renderStep() {
   if (step === 'words') return uiWords();
   if (step === 'review') return uiReview();
   if (step === 'shoot') return uiShoot();
+  if (step === 'boss') return uiBoss();
   if (step === 'phrase') return uiPhrase();
   if (step === 'song') return uiSongDay();
   if (step === 'reward') return uiReward();
@@ -272,7 +307,7 @@ function uiWords() {
   L.newWords.forEach(wd => {
     const c = document.createElement('div');
     c.className = 'word-card';
-    c.innerHTML = '<div class="emoji">' + wd.emoji + '</div><div class="en">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
+    c.innerHTML = '<div class="emoji">' + visualHTML(wd) + '</div><div class="en">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
     const sayRow = document.createElement('div');
     sayRow.className = 'say-row';
     const hearBtn = document.createElement('button');
@@ -313,8 +348,37 @@ function uiWords() {
     c.onclick = () => speakEN(wd.en);
     sayRow.appendChild(hearBtn);
     sayRow.appendChild(micBtn);
+    // 내 발음 녹음 + 비교 재생
+    const recRow = document.createElement('div');
+    recRow.className = 'say-row';
+    if (recordSupported()) {
+      const recBtn = document.createElement('button');
+      recBtn.className = 'say-btn';
+      recBtn.textContent = '🎙️ 내 발음 녹음';
+      recBtn.onclick = (e) => {
+        e.stopPropagation();
+        recordVoice(2.5, (st) => {
+          if (st === 'recording') { recBtn.textContent = '● 녹음 중...'; recBtn.disabled = true; }
+          else if (st === 'done') {
+            recBtn.disabled = false; recBtn.textContent = '🎙️ 다시 녹음';
+            recRow.querySelectorAll('.play-cmp').forEach(x => x.remove());
+            const mine = document.createElement('button');
+            mine.className = 'say-btn play-cmp';
+            mine.textContent = '▶ 내 발음';
+            mine.onclick = (ev) => { ev.stopPropagation(); playRecording(); };
+            const nat = document.createElement('button');
+            nat.className = 'say-btn play-cmp mic';
+            nat.textContent = '🔊 원어민';
+            nat.onclick = (ev) => { ev.stopPropagation(); speakEN(wd.en); };
+            recRow.appendChild(mine); recRow.appendChild(nat);
+          } else { recBtn.disabled = false; recBtn.textContent = '🎙️ 녹음 안 됨'; }
+        });
+      };
+      recRow.appendChild(recBtn);
+    }
     area.appendChild(c);
     area.appendChild(sayRow);
+    if (recRow.children.length) area.appendChild(recRow);
     area.appendChild(fb);
   });
   const btn = document.createElement('button');
@@ -350,6 +414,53 @@ function uiShoot() {
   runQuiz(qs, '⚽ 슛 게임! 맞히면 골이야!', null, nextStep, true);
 }
 
+// 6일차 — 주말 보스전 (한 주 단어 종합, 맞히면 보스 체력 깎기)
+const BOSSES = ['👹', '🤖', '🐉', '👾', '🦖', '🦑', '👻', '🐲'];
+function uiBoss() {
+  const words = shuffle((L.weekWords || []).slice()).slice(0, 8);
+  if (!words.length) { nextStep(); return; }
+  const boss = BOSSES[(curWeek().week - 1) % BOSSES.length];
+  const maxHp = words.length;
+  let hp = maxHp, qi = 0;
+  const area = $('lesson-area');
+  function bar() { return '<div class="boss-bar"><i style="width:' + Math.round(hp / maxHp * 100) + '%"></i></div>'; }
+  function ask() {
+    if (qi >= words.length || hp <= 0) {
+      area.innerHTML = '<div class="boss-wrap"><div class="boss win">' + boss + '</div></div>' +
+        '<div class="quiz-q" style="font-size:1.2rem;color:var(--accent)">보스를 물리쳤다! 🏆</div>';
+      sfxGoal(); goalFx();
+      const b = document.createElement('button'); b.className = 'next-btn'; b.textContent = '계속 👉'; b.onclick = nextStep;
+      area.appendChild(b);
+      return;
+    }
+    const word = words[qi];
+    const opts = shuffle([word].concat(pickOthers(word, 2)));
+    area.innerHTML =
+      '<div class="quiz-q">⚔️ 주말 보스전! 들리는 단어를 맞혀 보스를 공격! (' + (qi + 1) + '/' + words.length + ')</div>' +
+      '<div class="boss-wrap"><div class="boss">' + boss + '</div>' + bar() + '</div>';
+    const hear = document.createElement('button');
+    hear.className = 'speak-btn'; hear.textContent = '🔊 다시 듣기';
+    hear.onclick = () => speakEN(word.en);
+    area.appendChild(hear);
+    const box = document.createElement('div'); box.className = 'quiz-opts';
+    opts.forEach(o => {
+      const b = document.createElement('button'); b.className = 'opt'; b.innerHTML = visualHTML(o);
+      b.onclick = () => {
+        const ok = o.en === word.en; L.total++;
+        if (ok) {
+          L.correct++; hp--; b.classList.add('correct'); sfxGoal();
+          const bw = document.querySelector('.boss'); if (bw) { bw.classList.add('hit'); setTimeout(() => bw.classList.remove('hit'), 300); }
+        } else { b.classList.add('wrong'); sfxBad(); }
+        setTimeout(() => { qi++; ask(); }, ok ? 800 : 1100);
+      };
+      box.appendChild(b);
+    });
+    area.appendChild(box);
+    speakEN(word.en);
+  }
+  ask();
+}
+
 // 공용 퀴즈 — 영어 음성 듣고 그림 3개 중 고르기 (글 못 읽어도 가능)
 function runQuiz(words, title, onAnswer, onDone, goalMode) {
   let qi = 0;
@@ -369,7 +480,7 @@ function runQuiz(words, title, onAnswer, onDone, goalMode) {
     opts.forEach(o => {
       const b = document.createElement('button');
       b.className = 'opt';
-      b.textContent = o.emoji;
+      b.innerHTML = visualHTML(o);
       b.onclick = () => {
         const ok = o.en === word.en;
         L.total++;
@@ -458,7 +569,7 @@ function uiSongDay() {
   (s.words || []).forEach(wd => {
     const c = document.createElement('div');
     c.className = 'word-card';
-    c.innerHTML = '<div class="emoji" style="font-size:44px">' + wd.emoji + '</div><div class="en" style="font-size:1.3rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
+    c.innerHTML = '<div class="emoji">' + visualHTML(wd) + '</div><div class="en" style="font-size:1.3rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
     c.onclick = () => speakEN(wd.en);
     area.appendChild(c);
   });
@@ -659,7 +770,7 @@ function openSong(s) {
   (s.words || []).forEach(wd => {
     const c = document.createElement('div');
     c.className = 'word-card';
-    c.innerHTML = '<div class="emoji" style="font-size:40px">' + wd.emoji + '</div><div class="en" style="font-size:1.2rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
+    c.innerHTML = '<div class="emoji">' + visualHTML(wd) + '</div><div class="en" style="font-size:1.2rem">' + wd.en + '</div><div class="ko">' + wd.ko + '</div>';
     c.onclick = () => speakEN(wd.en);
     area.appendChild(c);
   });
@@ -845,6 +956,45 @@ function renderParentDash() {
   dash.classList.remove('hidden');
 }
 
+// ---------- 알파벳 따라 쓰기 ----------
+let traceIdx = 0, traceCtx = null, traceDrawing = false;
+const TRACE_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+function openTrace() {
+  show('screen-trace');
+  setupTraceCanvas();
+  renderTrace();
+}
+function setupTraceCanvas() {
+  const cv = $('trace-canvas');
+  const rect = cv.getBoundingClientRect();
+  cv.width = rect.width || 320; cv.height = rect.height || 320;
+  traceCtx = cv.getContext('2d');
+  traceCtx.lineWidth = 14; traceCtx.lineCap = 'round'; traceCtx.lineJoin = 'round';
+  traceCtx.strokeStyle = '#a3e635';
+  const pos = (e) => {
+    const r = cv.getBoundingClientRect();
+    const p = e.touches ? e.touches[0] : e;
+    return { x: (p.clientX - r.left) * (cv.width / r.width), y: (p.clientY - r.top) * (cv.height / r.height) };
+  };
+  const start = (e) => { e.preventDefault(); traceDrawing = true; const o = pos(e); traceCtx.beginPath(); traceCtx.moveTo(o.x, o.y); };
+  const move = (e) => { if (!traceDrawing) return; e.preventDefault(); const o = pos(e); traceCtx.lineTo(o.x, o.y); traceCtx.stroke(); };
+  const end = () => { traceDrawing = false; };
+  cv.onpointerdown = start; cv.onpointermove = move; cv.onpointerup = end; cv.onpointerleave = end;
+  cv.ontouchstart = start; cv.ontouchmove = move; cv.ontouchend = end;
+}
+function clearTrace() { if (traceCtx) traceCtx.clearRect(0, 0, $('trace-canvas').width, $('trace-canvas').height); }
+function renderTrace() {
+  const L1 = TRACE_LETTERS[traceIdx];
+  $('trace-guide').textContent = L1;
+  $('trace-progress').textContent = (traceIdx + 1) + ' / 26';
+  clearTrace();
+  speakEN(L1);
+}
+function traceMove(d) {
+  traceIdx = (traceIdx + d + 26) % 26;
+  renderTrace();
+}
+
 // ---------- 시작/이벤트 ----------
 function init() {
   load();
@@ -856,6 +1006,10 @@ function init() {
     .then(r => r.json())
     .then(c => { CUSTOM = Array.isArray(c) ? c : []; })
     .catch(() => { CUSTOM = []; });
+  fetch('data/img_map.json')
+    .then(r => r.json())
+    .then(m => { IMG_MAP = m || {}; })
+    .catch(() => { IMG_MAP = {}; });
   fetch('data/curriculum.json')
     .then(r => r.json())
     .then(j => {
@@ -882,6 +1036,12 @@ function init() {
   $('btn-pack').onclick = openPack;
   $('btn-parent').onclick = openParentGate;
   $('btn-parent-home').onclick = renderHome;
+  $('btn-trace').onclick = openTrace;
+  $('btn-trace-home').onclick = renderHome;
+  $('trace-hear').onclick = () => speakEN(TRACE_LETTERS[traceIdx]);
+  $('trace-clear').onclick = clearTrace;
+  $('trace-prev').onclick = () => traceMove(-1);
+  $('trace-next').onclick = () => traceMove(1);
   $('gate-ok').onclick = checkGate;
   $('btn-karaoke-back').onclick = () => { stopKaraoke(); renderSongRoom(); };
   $('btn-karaoke-home').onclick = () => { stopKaraoke(); renderHome(); };
