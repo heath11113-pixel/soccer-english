@@ -6,6 +6,7 @@ const STORE_KEY = 'ke_state_v1';
 let CUR = null;   // curriculum.json
 let CUSTOM = [];  // custom_songs.json (부모가 추가한 곡)
 let IMG_MAP = {}; // 단어 -> 생성된 그림 경로 (없으면 이모지 폴백)
+let CARD_IMG = {}; // 카드 id -> FIFA 스타일 그림 경로
 let S = null;     // 저장 상태
 
 // 단어 그림: 생성된 이미지가 있으면 그림, 없으면 이모지 (학습 시각자료)
@@ -69,6 +70,10 @@ function speak(text, lang) {
     speechSynthesis.speak(u);
   } catch (e) { /* 음성 미지원 기기에서도 앱은 동작해야 함 */ }
 }
+// 빈칸(밑줄)을 소리내어 읽지 않도록 정리 ("Hi! I'm ___." -> "Hi! I'm.")
+function speakable(t) {
+  return (t || '').replace(/_+/g, ' ').replace(/\s+([.!?,])/g, '$1').replace(/\s{2,}/g, ' ').trim();
+}
 // 원어민 발음 mp3가 있으면 우선 재생, 없거나 실패하면 기기 TTS 폴백
 function speakEN(t) {
   const src = AUDIO_MAP[t];
@@ -77,11 +82,11 @@ function speakEN(t) {
       if (curAudio) { curAudio.pause(); }
       if (window.speechSynthesis) speechSynthesis.cancel();
       curAudio = new Audio(src);
-      curAudio.play().catch(() => speak(t, 'en-US'));
+      curAudio.play().catch(() => speak(speakable(t), 'en-US'));
       return;
     } catch (e) { /* 폴백으로 진행 */ }
   }
-  speak(t, 'en-US');
+  speak(speakable(t), 'en-US');
 }
 const speakKO = t => speak(t, 'ko-KR');
 
@@ -688,7 +693,10 @@ function renderCards() {
     const owned = S.cards.includes(c.id);
     const d = document.createElement('div');
     d.className = 'pcard ' + c.r + (owned ? '' : ' locked');
-    d.innerHTML = '<div class="face">' + (owned ? c.face : '❓') + '</div><div class="nm">' + (owned ? c.nm : '???') + '</div>';
+    let face;
+    if (owned && CARD_IMG[c.id]) face = '<img class="cardimg" src="' + CARD_IMG[c.id] + '" alt="" loading="lazy">';
+    else face = '<div class="face">' + (owned ? c.face : '🔒') + '</div>';
+    d.innerHTML = face + '<div class="nm">' + (owned ? c.nm : '???') + '</div>';
     grid.appendChild(d);
   });
   $('btn-pack').disabled = S.coins < PACK_COST;
@@ -704,19 +712,30 @@ function openPack() {
   else if (roll < 0.35) pool = CARDS.filter(c => c.r === 'rare');
   else pool = CARDS.filter(c => c.r === 'common');
   const card = pool[Math.floor(Math.random() * pool.length)];
-  let msg;
-  if (S.cards.includes(card.id)) {
-    S.coins += 20;
-    msg = card.face + ' ' + card.nm + ' — 이미 있어서 코인 +20 돌려받았어!';
-  } else {
+  const dup = S.cards.includes(card.id);
+  let sub;
+  if (dup) { S.coins += 20; sub = '이미 있어서 코인 +20 돌려받았어!'; }
+  else {
     S.cards.push(card.id);
-    msg = card.face + ' ' + card.nm + ' 획득!' + (card.r === 'legend' ? ' 🌟레전드!!' : card.r === 'rare' ? ' 💙레어!' : '');
+    sub = card.r === 'legend' ? '🌟 레전드 카드!!' : card.r === 'rare' ? '💙 레어 카드!' : '획득!';
     goalFx(); sfxGoal();
   }
   save();
-  renderCards();
-  speakKO(S.cards.includes(card.id) ? '카드를 확인해 봐!' : '');
-  alert(msg);
+  revealCard(card, sub, !dup);
+}
+// 카드 뽑기 결과를 큰 그림으로 보여주는 오버레이
+function revealCard(card, sub, isNew) {
+  const ov = $('reveal-overlay');
+  const img = CARD_IMG[card.id]
+    ? '<img class="reveal-img ' + card.r + '" src="' + CARD_IMG[card.id] + '" alt="">'
+    : '<div class="reveal-emoji">' + card.face + '</div>';
+  ov.innerHTML = '<div class="reveal-box">' + img +
+    '<div class="reveal-nm">' + card.nm + '</div>' +
+    '<div class="reveal-sub">' + sub + '</div>' +
+    '<button id="reveal-ok" class="cta">좋아!</button></div>';
+  ov.classList.remove('hidden');
+  if (isNew) speakKO('새 카드를 얻었어요!');
+  $('reveal-ok').onclick = () => { ov.classList.add('hidden'); renderCards(); };
 }
 
 // ---------- 노래방 (지나온 주차의 노래 목록) ----------
@@ -1127,6 +1146,10 @@ function init() {
     .then(r => r.json())
     .then(m => { IMG_MAP = m || {}; })
     .catch(() => { IMG_MAP = {}; });
+  fetch('data/card_img.json')
+    .then(r => r.json())
+    .then(m => { CARD_IMG = m || {}; })
+    .catch(() => { CARD_IMG = {}; });
   fetch('data/curriculum.json')
     .then(r => r.json())
     .then(j => {

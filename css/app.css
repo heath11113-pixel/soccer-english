@@ -200,6 +200,21 @@ h2 { font-family: var(--display); color: var(--text); margin: 4px 0; font-size: 
 .pcard.locked { opacity: .4; } .pcard.locked .nm { color: var(--muted); }
 .pcard.rare { border-color: rgba(56,189,248,.5); }
 .pcard.legend { border-color: rgba(251,191,36,.6); box-shadow: 0 0 18px rgba(251,191,36,.18); }
+.pcard .cardimg { width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 10px; display: block; }
+.pcard.locked .face { font-size: 34px; opacity: .6; }
+
+/* 카드 뽑기 결과 오버레이 */
+#reveal-overlay { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center;
+  background: rgba(5,7,10,.82); padding: 24px; }
+.reveal-box { width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.reveal-img { width: 72%; aspect-ratio: 3/4; object-fit: cover; border-radius: 18px; border: 2px solid var(--line);
+  animation: revealpop .5s ease-out; }
+.reveal-img.rare { border-color: #38bdf8; box-shadow: 0 0 40px rgba(56,189,248,.5); }
+.reveal-img.legend { border-color: var(--gold); box-shadow: 0 0 50px rgba(251,191,36,.6); }
+.reveal-emoji { font-size: 110px; animation: revealpop .5s ease-out; }
+@keyframes revealpop { 0% { transform: scale(.3) rotate(-8deg); opacity: 0; } 70% { transform: scale(1.12); } 100% { transform: scale(1); opacity: 1; } }
+.reveal-nm { font-family: var(--display); font-weight: 900; font-size: 1.5rem; color: var(--text); }
+.reveal-sub { color: var(--accent); font-weight: 700; }
 
 .reward-box { background: linear-gradient(180deg, #101a24, #0b121a); border: 1px solid var(--line); border-radius: 22px; width: 100%; padding: 26px 22px; text-align: center; font-size: 1.08rem; line-height: 1.9; }
 .reward-box .big-coin { font-size: 48px; }
