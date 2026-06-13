@@ -995,6 +995,123 @@ function traceMove(d) {
   renderTrace();
 }
 
+// ---------- 영어 대화 (코치 바나나, 제미나이) — 키는 이 폰에만 저장 ----------
+const GKEY_STORE = 'ke_gkey';
+let chatHist = [];   // {role:'user'|'model', text}
+const CHAT_SYS = [
+  'You are Coach Banana, a cheerful soccer coach helping a young Korean child (age 7-9, beginner English).',
+  'Reply in VERY simple English, ONE short sentence only (max 8 words).',
+  'Be warm, playful, encouraging. Always end with one easy question to keep chatting.',
+  'Use only easy topics: soccer, animals, colors, family, food, school, feelings.',
+  'Never use scary or inappropriate content. If the child writes Korean, still answer in simple English.',
+  'After your English sentence, add the Korean translation on a new line in parentheses.'
+].join(' ');
+function getGKey() { return localStorage.getItem(GKEY_STORE) || ''; }
+function openChat() {
+  if (!getGKey()) { $('chat-setup').classList.remove('hidden'); $('chat-main').classList.add('hidden'); }
+  else { $('chat-setup').classList.add('hidden'); $('chat-main').classList.remove('hidden'); if (!chatHist.length) chatStart(); }
+  show('screen-chat');
+}
+function saveGKey() {
+  const k = $('chat-key-input').value.trim();
+  if (k.length < 20) { alert('키가 올바르지 않아 보여요. 다시 확인해 주세요.'); return; }
+  localStorage.setItem(GKEY_STORE, k);
+  $('chat-key-input').value = '';
+  openChat();
+}
+function splitReply(text) {
+  // "English\n(한국어)" 분리
+  const m = text.match(/^([\s\S]*?)[\(（]([\s\S]*?)[\)）]\s*$/);
+  if (m) return { en: m[1].trim(), ko: m[2].trim() };
+  const lines = text.split('\n').map(s => s.trim()).filter(Boolean);
+  return { en: lines[0] || text.trim(), ko: lines[1] || '' };
+}
+function addMsg(role, en, ko) {
+  const log = $('chat-log');
+  const d = document.createElement('div');
+  d.className = 'msg ' + (role === 'me' ? 'me' : 'bot');
+  d.innerHTML = '<span class="t"></span>' + (role === 'bot' ? '<span class="say">🔊</span>' : '') +
+    (ko ? '<span class="ko"></span>' : '');
+  d.querySelector('.t').textContent = en;
+  if (ko) d.querySelector('.ko').textContent = ko;
+  if (role === 'bot') { d.querySelector('.say').onclick = () => speakEN(en); }
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+function setQuick(chips) {
+  const q = $('chat-quick');
+  q.innerHTML = '';
+  chips.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'qchip'; b.textContent = c;
+    b.onclick = () => chatSend(c);
+    q.appendChild(b);
+  });
+}
+async function callGemini(historyForApi) {
+  const key = getGKey();
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + key;
+  const body = {
+    systemInstruction: { parts: [{ text: CHAT_SYS }] },
+    contents: historyForApi.map(m => ({ role: m.role, parts: [{ text: m.text }] })),
+    generationConfig: { maxOutputTokens: 80, temperature: 0.8 }
+  };
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error('http ' + r.status);
+  const j = await r.json();
+  const parts = (((j.candidates || [])[0] || {}).content || {}).parts || [];
+  return parts.map(p => p.text || '').join(' ').trim();
+}
+function chatStart() {
+  $('chat-log').innerHTML = '';
+  chatHist = [];
+  const hi = "Hi! I am Coach Banana!\n(안녕! 나는 코치 바나나야!)";
+  const s = splitReply(hi);
+  chatHist.push({ role: 'model', text: hi });
+  addMsg('bot', s.en, s.ko);
+  speakEN(s.en);
+  setQuick(['Hello!', 'I like soccer!', 'How are you?']);
+}
+async function chatSend(text) {
+  if (!text) return;
+  setQuick([]);
+  addMsg('me', text, '');
+  chatHist.push({ role: 'user', text: text });
+  const typing = addMsg('bot', '...', '');
+  typing.classList.add('typing');
+  try {
+    const reply = await callGemini(chatHist.slice(-12));
+    typing.remove();
+    const s = splitReply(reply || "Good job! Let's keep going!\n(잘했어! 계속 해보자!)");
+    chatHist.push({ role: 'model', text: reply });
+    addMsg('bot', s.en, s.ko);
+    speakEN(s.en);
+    setQuick(['Yes!', 'No', 'I like it!', 'Why?']);
+  } catch (e) {
+    typing.remove();
+    addMsg('bot', '앗, 연결이 안 돼요. 키나 인터넷을 확인해 주세요.', '');
+  }
+}
+// 자유 발화 인식 (대화용)
+function chatListen() {
+  const SRk = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const mic = $('chat-mic');
+  if (!SRk) { chatType(); return; }
+  let rec;
+  try { rec = new SRk(); } catch (e) { chatType(); return; }
+  rec.lang = 'en-US'; rec.interimResults = false; rec.maxAlternatives = 1;
+  mic.textContent = '🎙️ 듣는 중...'; mic.disabled = true;
+  rec.onresult = (ev) => { const t = ev.results[0][0].transcript; mic.textContent = '🎤 말하기'; mic.disabled = false; if (t) chatSend(t); };
+  rec.onerror = () => { mic.textContent = '🎤 말하기'; mic.disabled = false; };
+  rec.onend = () => { mic.textContent = '🎤 말하기'; mic.disabled = false; };
+  try { rec.start(); } catch (e) { mic.textContent = '🎤 말하기'; mic.disabled = false; chatType(); }
+}
+function chatType() {
+  const t = prompt('영어로 써 보세요 (Type in English):');
+  if (t && t.trim()) chatSend(t.trim());
+}
+
 // ---------- 시작/이벤트 ----------
 function init() {
   load();
@@ -1042,6 +1159,12 @@ function init() {
   $('trace-clear').onclick = clearTrace;
   $('trace-prev').onclick = () => traceMove(-1);
   $('trace-next').onclick = () => traceMove(1);
+  $('btn-chat').onclick = openChat;
+  $('btn-chat-home').onclick = renderHome;
+  $('btn-chat-key').onclick = () => { $('chat-setup').classList.remove('hidden'); $('chat-main').classList.add('hidden'); };
+  $('chat-key-save').onclick = saveGKey;
+  $('chat-mic').onclick = chatListen;
+  $('chat-type').onclick = chatType;
   $('gate-ok').onclick = checkGate;
   $('btn-karaoke-back').onclick = () => { stopKaraoke(); renderSongRoom(); };
   $('btn-karaoke-home').onclick = () => { stopKaraoke(); renderHome(); };

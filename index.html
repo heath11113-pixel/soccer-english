@@ -45,8 +45,32 @@
       <button id="btn-song" class="tile"><span class="ic">🎤</span>노래방</button>
       <button id="btn-coupons" class="tile"><span class="ic">🎟️</span>내 쿠폰</button>
       <button id="btn-trace" class="tile"><span class="ic">✏️</span>글자 쓰기</button>
+      <button id="btn-chat" class="tile wide"><span class="ic">💬</span>영어 대화 (코치 바나나)</button>
     </div>
     <button id="btn-parent" class="textlink">👨‍👩‍👧 부모님</button>
+  </section>
+
+  <!-- 영어 대화 (코치 바나나) 화면 -->
+  <section id="screen-chat" class="screen hidden">
+    <header class="topbar">
+      <button id="btn-chat-home" class="mini">🏠</button>
+      <span>💬 코치 바나나</span>
+      <button id="btn-chat-key" class="mini">🔑</button>
+    </header>
+    <div id="chat-setup" class="hidden">
+      <div class="bubble">부모님, 영어 대화를 켜려면 구글 제미나이 키를 한 번 넣어 주세요.<br>이 키는 이 폰에만 저장되고 외부에 올라가지 않아요.</div>
+      <input id="chat-key-input" type="text" placeholder="제미나이 API 키 붙여넣기" autocomplete="off">
+      <button id="chat-key-save" class="cta">저장하고 시작</button>
+      <div class="hint">키 발급(무료) = aistudio.google.com/apikey</div>
+    </div>
+    <div id="chat-main" class="hidden">
+      <div id="chat-log"></div>
+      <div id="chat-quick" class="chat-quick"></div>
+      <div class="say-row">
+        <button id="chat-mic" class="cta" style="flex:2">🎤 말하기</button>
+        <button id="chat-type" class="say-btn" style="flex:1">⌨️ 쓰기</button>
+      </div>
+    </div>
   </section>
 
   <!-- 알파벳 따라 쓰기 화면 -->
