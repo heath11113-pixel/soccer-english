@@ -203,6 +203,7 @@ function show(id) {
 function renderHome() {
   if (!CUR) return;   // 데이터 로딩 전 진입 방어
   $('hud-coins').textContent = '🪙 ' + S.coins.toLocaleString();
+  $('hud-coins').onclick = renderCards;   // 코인 누르면 카드(쓰는 곳)로
   $('hud-streak').textContent = '🔥 ' + S.streak + '일';
   const unused = S.coupons.filter(c => !c.used).length;
   $('btn-coupons').innerHTML = '<span class="ic">🎟️</span>내 쿠폰' + (unused ? ' (' + unused + ')' : '');
@@ -527,25 +528,36 @@ function goalFx() {
   setTimeout(() => ov.classList.add('hidden'), 900);
 }
 
+// 빈칸(___)을 아이 이름으로 채움. 이름 없으면 친근한 기본값.
+function fillName(text) {
+  if (text.indexOf('___') < 0) return text;
+  const nm = (S && S.name && S.name.trim()) ? S.name.trim() : 'Sam';
+  return text.replace(/_{2,}/g, nm);
+}
+
 // 4단계 — 오늘의 한 마디
 function uiPhrase() {
   const p = L.phrase;
   if (!p) { nextStep(); return; }
+  const en = fillName(p.en);
+  const ko = fillName(p.ko).replace(/\(이\)/g, '');  // "___(이)야" 처리
+  const hasBlank = p.en.indexOf('___') >= 0;
   const area = $('lesson-area');
   area.innerHTML =
     '<div class="quiz-q">오늘의 한 마디 🗣️</div>' +
-    '<div class="word-card"><div class="en">' + p.en + '</div><div class="ko">' + p.ko + '</div></div>';
+    '<div class="word-card"><div class="en">' + en + '</div><div class="ko">' + ko + '</div></div>' +
+    (hasBlank ? '<div class="quiz-q" style="font-size:.92rem">내 이름을 넣어 말해 봐요!</div>' : '');
   const hear = document.createElement('button');
   hear.className = 'speak-btn';
   hear.textContent = '🔊 들어 보기';
-  hear.onclick = () => speakEN(p.en);
+  hear.onclick = () => speakEN(en);
   area.appendChild(hear);
   const done = document.createElement('button');
   done.className = 'next-btn';
   done.textContent = '따라 말했어요! 👉';
   done.onclick = nextStep;
   area.appendChild(done);
-  setTimeout(() => speakEN(p.en), 400);
+  setTimeout(() => speakEN(en), 400);
 }
 
 // 노래의 날 — 영상 보기 + 노래 단어 + 가사 빈칸 게임
@@ -673,6 +685,7 @@ function uiReward() {
         '<br>🔥 연속 ' + S.streak + '일째!' +
         (S.streak % 7 === 0 && S.streak > 0 ? '<br>🎁 7일 보너스 +50!' : '') +
         (gotCoupon ? '<br><br>🎟️ <b>한 주 완주! 현금 ' + COUPON_AMOUNT.toLocaleString() + '원 쿠폰 획득!</b><br>부모님께 보여 드리자!' : '')) +
+    (doneBefore ? '' : '<div class="reward-hint">🪙 코인은 홈 위 🪙 에 모여요 (지금 ' + S.coins.toLocaleString() + '개)<br>100코인이면 <b>카드 뽑기</b>를 할 수 있어요!</div>') +
     '</div>';
   if (gotCoupon) { goalFx(); sfxGoal(); }
   speakKO(praise);
@@ -974,6 +987,14 @@ function renderParentDash() {
     statRow('받은 쿠폰', S.coupons.length + '장 (누적 ' + totalAmt.toLocaleString() + '원)', 'gold') +
     statRow('아직 안 준 쿠폰', unusedCoupon.length + '장 (' + unusedAmt.toLocaleString() + '원)', 'gold') +
     statRow('마지막 학습일', (S.lastDone || '아직 없음'), '');
+  const nameBtn = document.createElement('button');
+  nameBtn.className = 'big';
+  nameBtn.textContent = '✏️ 이름 바꾸기 (현재: ' + (S.name || '없음') + ')';
+  nameBtn.onclick = () => {
+    const n = prompt('아이 이름을 적어 주세요 (영어 문장 빈칸에 들어가요)', S.name || '');
+    if (n !== null) { S.name = n.trim().slice(0, 8); save(); renderParentDash(); }
+  };
+  dash.appendChild(nameBtn);
   dash.classList.remove('hidden');
 }
 

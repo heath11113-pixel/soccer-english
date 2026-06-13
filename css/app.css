@@ -218,6 +218,8 @@ h2 { font-family: var(--display); color: var(--text); margin: 4px 0; font-size: 
 
 .reward-box { background: linear-gradient(180deg, #101a24, #0b121a); border: 1px solid var(--line); border-radius: 22px; width: 100%; padding: 26px 22px; text-align: center; font-size: 1.08rem; line-height: 1.9; }
 .reward-box .big-coin { font-size: 48px; }
+.reward-hint { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); font-size: .92rem; color: var(--muted); line-height: 1.6; }
+.pill.coin { cursor: pointer; }
 .reward-box.used { opacity: .5; }
 #coupon-list { width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: center; }
 
